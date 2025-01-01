@@ -7,7 +7,12 @@ interface LogoProps {
 
 const Logo = ({ w = 130, h = 130 }: LogoProps) => {
   return (
-    <Image src={'/logo.svg'} alt="Milfar Academy" width={w} height={h} />
+    <Image 
+      src={'/logo.svg'} 
+      alt="Milfar Academy" 
+      width={w} 
+      height={h} 
+    />
   )
 }
 
