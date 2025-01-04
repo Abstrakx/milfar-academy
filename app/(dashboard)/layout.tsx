@@ -1,5 +1,9 @@
+import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
+import { extractRouterConfig } from "uploadthing/server";
+import { ourFileRouter } from "../api/uploadthing/core";
 import Navbar from "./_components/navbar"
 import Sidebar from "./_components/sidebar"
+
  
 const DashboardLayout = ({
     children
@@ -17,6 +21,9 @@ const DashboardLayout = ({
         </div>
         
         <main className="md:pl-80 h-full pt-[90px]">
+          <NextSSRPlugin 
+            routerConfig={extractRouterConfig(ourFileRouter)}
+          /> 
           {children}
         </main>
     </div>
