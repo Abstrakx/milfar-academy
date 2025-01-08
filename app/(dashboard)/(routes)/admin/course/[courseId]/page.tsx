@@ -13,6 +13,8 @@ import ImageForm from "./_components/image-form"
 import PriceForm from "./_components/price-form"
 import AttachmentForm from "./_components/attachment-form"
 import ChaptersForm from "./_components/chapter-form"
+import Banner from "@/components/banner"
+import Actions from "./_components/actions"
 
 const CourseIdPage = async ({
   params
@@ -59,6 +61,7 @@ const CourseIdPage = async ({
   const totalFields = requiredFields.length;
   const completedFields = requiredFields.filter(Boolean).length;
   const progress = (completedFields / totalFields) * 100;
+  const isComplete = requiredFields.every(Boolean);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-white to-gray-100">
@@ -74,6 +77,14 @@ const CourseIdPage = async ({
         </div>
 
         <div className="p-4 sm:p-6 lg:p-8 space-y-6">
+          {/* Banner Publish */}
+          {!course.isPublished && (
+            <Banner
+              variant="warning"
+              label="This course is unpublished. It will not be visible in the course"
+            />
+          )}
+
           {/* Progress Section */}
           <div className="bg-white rounded-xl p-6 border shadow-sm">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -83,6 +94,11 @@ const CourseIdPage = async ({
                   Lengkapi semua kolom yang wajib diisi ({completedFields}/{totalFields})
                 </p>
               </div>
+              <Actions
+                disabled={!isComplete}
+                courseId={params.courseId}
+                isPublished={course.isPublished}
+              />
             </div>
             <Progress value={progress} className="mt-4" />
           </div>
