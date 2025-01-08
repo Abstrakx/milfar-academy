@@ -7,7 +7,6 @@ import { File, ImageIcon, Loader2, Pencil, PlusCircle, X } from "lucide-react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Attachment, Course } from "@prisma/client";
-import Image from "next/image";
 import FileUpload from "@/components/file-upload";
 import toast from "react-hot-toast";
 

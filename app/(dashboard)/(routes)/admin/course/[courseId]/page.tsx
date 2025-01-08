@@ -1,14 +1,18 @@
 import { db } from "@/lib/db"
 import { auth } from "@clerk/nextjs/server"
-import { redirect } from "next/navigation";
-import { CircleDollarSign, File, LayoutDashboard, ListCheck } from 'lucide-react';
-import { IconBadge } from "@/components/icon-badge";
-import TitleForm from "./_components/title-form";
-import DescriptionForm from "./_components/description-form";
-import ImageForm from "./_components/image-form";
-import PriceForm from "./_components/price-form";
-import AttachmentForm from "./_components/attachment-form";
-import ChaptersForm from "./_components/chapter-form";
+import { redirect } from "next/navigation"
+import { CircleDollarSign, File, LayoutDashboard, ListCheck, ArrowLeft } from 'lucide-react'
+import { IconBadge } from "@/components/icon-badge"
+import { Progress } from "@/components/ui/progress"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import Link from "next/link"
+
+import TitleForm from "./_components/title-form"
+import DescriptionForm from "./_components/description-form"
+import ImageForm from "./_components/image-form"
+import PriceForm from "./_components/price-form"
+import AttachmentForm from "./_components/attachment-form"
+import ChaptersForm from "./_components/chapter-form"
 
 const CourseIdPage = async ({
   params
@@ -54,77 +58,104 @@ const CourseIdPage = async ({
 
   const totalFields = requiredFields.length;
   const completedFields = requiredFields.filter(Boolean).length;
-
-  const completionField = `(${completedFields}/${totalFields})`;
+  const progress = (completedFields / totalFields) * 100;
 
   return (
-    <div className="p-6">
-      <div className="flex items-center justify-between">
-        <div className="flex flex-col gap-y-2">
-          <h1 className="text-2xl font-medium">
-            Course setup
-          </h1>
-          <span className="text-sm text-slate-700">
-            Complete all fields {completionField}
-          </span>
-        </div>
-      </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-16">
-        <div>
-          <div className="flex items-center gap-x-2">
-            <IconBadge icon={LayoutDashboard} />
-            <h2 className="text-xl">
-              Customize your course
-            </h2>
+    <div className="min-h-screen bg-gradient-to-b from-white to-gray-100">
+      <div className="max-w-7xl mx-auto">
+        {/* Header Section */}
+        <div className="border-b bg-white mt-1">
+          <div className="px-4 sm:px-6 lg:px-8 py-3">
+            <Link href="/admin/course" className="inline-flex items-center text-sm text-gray-500 hover:text-gray-700">
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Kembali ke Kursus
+            </Link>
           </div>
-          <TitleForm
-            initialData={course}
-            courseId={course.id} />
+        </div>
 
-          <DescriptionForm
-            initialData={course}
-            courseId={course.id} /> 
+        <div className="p-4 sm:p-6 lg:p-8 space-y-6">
+          {/* Progress Section */}
+          <div className="bg-white rounded-xl p-6 border shadow-sm">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div className="space-y-1">
+                <h1 className="text-2xl font-bold text-gray-900">Pengaturan Kursus</h1>
+                <p className="text-sm text-gray-500">
+                  Lengkapi semua kolom yang wajib diisi ({completedFields}/{totalFields})
+                </p>
+              </div>
+            </div>
+            <Progress value={progress} className="mt-4" />
+          </div>
 
-          <ImageForm 
-            initialData={course}
-            courseId={course.id} />
-        </div>
-        <div className="space-y-6">
-        <div>
-          <div className="flex items-center gap-x-2">
-            <IconBadge icon={ListCheck} />
-            <h2 className="text-xl">
-              Course chapters
-            </h2>
+          {/* Main Content */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Left Column */}
+            <div className="space-y-6">
+              <Card>
+                <CardHeader className="flex flex-row items-center gap-x-2 space-y-0 pb-2">
+                  <IconBadge icon={LayoutDashboard} />
+                  <CardTitle>Detail Kursus</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  <TitleForm
+                    initialData={course}
+                    courseId={course.id}
+                  />
+                  <DescriptionForm
+                    initialData={course}
+                    courseId={course.id}
+                  />
+                  <ImageForm 
+                    initialData={course}
+                    courseId={course.id}
+                  />
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Right Column */}
+            <div className="space-y-6">
+              <Card>
+                <CardHeader className="flex flex-row items-center gap-x-2 space-y-0 pb-2">
+                  <IconBadge icon={ListCheck} />
+                  <CardTitle>Bab Kursus</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <ChaptersForm
+                    initialData={course}
+                    courseId={course.id}
+                  />
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader className="flex flex-row items-center gap-x-2 space-y-0 pb-2">
+                  <IconBadge icon={CircleDollarSign} />
+                  <CardTitle>Harga Kursus</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <PriceForm
+                    initialData={course}
+                    courseId={course.id}
+                  />
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader className="flex flex-row items-center gap-x-2 space-y-0 pb-2">
+                  <IconBadge icon={File} />
+                  <CardTitle>Sumber Daya & Lampiran</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <AttachmentForm
+                    initialData={course}
+                    courseId={course.id}
+                  />
+                </CardContent>
+              </Card>
+            </div>
           </div>
-          <ChaptersForm
-            initialData={course}
-            courseId={course.id} /> 
         </div>
-        <div>
-          <div className="flex items-center gap-x-2">
-            <IconBadge icon={CircleDollarSign} />
-            <h2 className="text-xl">
-              Harga Course
-            </h2>
-          </div>
-          <PriceForm
-            initialData={course}
-            courseId={course.id}
-          />
-        </div>
-        <div>
-          <div className="flex items-center gap-x-2">
-            <IconBadge icon={File} />
-            <h2 className="text-xl">
-              Resources & Attachments
-            </h2>
-          </div>
-          <AttachmentForm
-            initialData={course}
-            courseId={course.id} />
-        </div>
-      </div>
       </div>
     </div>
   )

@@ -102,7 +102,7 @@ const ChaptersList = ({
 
                         <Pencil 
                             onClick={() => onEdit(chapter.id)}
-                            className="w-4 h-4 cursor-pointer hover:opacity-75 transition"
+                            className="w-4 h-4 cursor-pointer hover:opacity-75 transition ml-2"
                         />
                     </div>
                   </div>

@@ -33,8 +33,8 @@ const CreatePage = () => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-        await axios.post("/api/courses", values);
-        router.push("/admin/course/$(response.data.id)");
+        const response = await axios.post("/api/courses", values);
+        router.push(`/admin/course/${response.data.id}`);
         toast.success("Kursus berhasil dibuat!");
     } catch (error : any) {
         if (error.response) {
@@ -95,7 +95,7 @@ const CreatePage = () => {
                       )}
                     />
                     <div className="flex items-center gap-x-4 pt-4">
-                      <Link href="/" className="w-full sm:w-auto">
+                      <Link href="/admin/course" className="w-full sm:w-auto">
                         <Button
                           type="button"
                           variant="outline"

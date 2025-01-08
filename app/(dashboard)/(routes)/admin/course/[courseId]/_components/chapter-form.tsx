@@ -7,12 +7,13 @@ import { useForm } from "react-hook-form";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Loader2, PlusCircle } from "lucide-react";
-import toast from "react-hot-toast";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Course, Chapter } from "@prisma/client";
 import { Input } from "@/components/ui/input";
+import toast from "react-hot-toast";
+
 import ChaptersList from "./chapter-list";
 
 interface ChaptersFormProps {
