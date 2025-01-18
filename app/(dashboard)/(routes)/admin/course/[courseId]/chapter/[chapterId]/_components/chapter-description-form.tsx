@@ -19,7 +19,7 @@ interface ChapterDescriptionFormProps {
 }
 
 const formSchema = z.object({
-    description: z.string().min(3, {
+    description: z.string().min(0, {
         message: "Deskripsi Diperlukan",
     }),
 });

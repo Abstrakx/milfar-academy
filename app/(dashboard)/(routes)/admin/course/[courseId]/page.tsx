@@ -15,6 +15,7 @@ import AttachmentForm from "./_components/attachment-form"
 import ChaptersForm from "./_components/chapter-form"
 import Banner from "@/components/banner"
 import Actions from "./_components/actions"
+import CategoryForm from "./_components/category-form"
 
 const CourseIdPage = async ({
   params
@@ -46,6 +47,12 @@ const CourseIdPage = async ({
     },
   });
 
+  const categories = await db.category.findMany({
+    orderBy: {
+      name: "asc",
+    },
+  });
+
   if (!course) {
     return redirect("/")
   }
@@ -55,6 +62,7 @@ const CourseIdPage = async ({
     course.description,
     course.imageUrl,
     course.price,
+    course.categoryId,
     course.chapters.some((chapter) => chapter.isPublished),
   ];
 
@@ -124,6 +132,14 @@ const CourseIdPage = async ({
                   <ImageForm 
                     initialData={course}
                     courseId={course.id}
+                  />
+                  <CategoryForm
+                    initialData={course}
+                    courseId={course.id}
+                    options={categories.map((category) => ({
+                      label: category.name,
+                      value: category.id,
+                    }))}
                   />
                 </CardContent>
               </Card>

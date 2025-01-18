@@ -57,8 +57,7 @@ export const IconBadge = ({
 }: IconBadgeProps) => {
     return (
         <div className={cn(backgroundVariants({ variant, size }))}>
-	      <Icon className={cn(iconVariants({ variant, size }))} />
-
+	        <Icon className={cn(iconVariants({ variant, size }))} />
         </div>
     )
 }

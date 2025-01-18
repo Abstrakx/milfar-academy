@@ -55,7 +55,7 @@ const DescriptionForm = ({
             } else if (error.request) {
                 toast.error("No response received from the server");
             } else {
-                toast.error("Error: ${error.message}");
+                toast.error(`Error: ${error.message}`);
             }
             
         }
