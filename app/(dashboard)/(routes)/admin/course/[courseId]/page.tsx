@@ -16,6 +16,8 @@ import ChaptersForm from "./_components/chapter-form"
 import Banner from "@/components/banner"
 import Actions from "./_components/actions"
 import CategoryForm from "./_components/category-form"
+import DiscountForm from "./_components/discount-form"
+import CouponManagement from "./_components/cupon-form"
 
 const CourseIdPage = async ({
   params
@@ -50,6 +52,12 @@ const CourseIdPage = async ({
   const categories = await db.category.findMany({
     orderBy: {
       name: "asc",
+    },
+  });
+  
+  const coupons = await db.coupon.findMany({
+    where: {
+      courseId: params.courseId,
     },
   });
 
@@ -143,6 +151,18 @@ const CourseIdPage = async ({
                   />
                 </CardContent>
               </Card>
+              <Card>
+                <CardHeader className="flex flex-row items-center gap-x-2 space-y-0 pb-2">
+                  <IconBadge icon={File} />
+                  <CardTitle>Sumber Daya & Lampiran</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <AttachmentForm
+                    initialData={course}
+                    courseId={course.id}
+                  />
+                </CardContent>
+              </Card>
             </div>
 
             {/* Right Column */}
@@ -170,21 +190,17 @@ const CourseIdPage = async ({
                     initialData={course}
                     courseId={course.id}
                   />
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader className="flex flex-row items-center gap-x-2 space-y-0 pb-2">
-                  <IconBadge icon={File} />
-                  <CardTitle>Sumber Daya & Lampiran</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <AttachmentForm
+                  <DiscountForm 
                     initialData={course}
+                    courseId={course.id}                 
+                  />
+                  <CouponManagement
+                    initialData={coupons}
                     courseId={course.id}
                   />
                 </CardContent>
               </Card>
+
             </div>
           </div>
         </div>

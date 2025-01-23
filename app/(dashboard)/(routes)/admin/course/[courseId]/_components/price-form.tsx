@@ -104,6 +104,8 @@ const PriceForm = ({
                                         disabled={isSubmitting}
                                         placeholder="Tentukan harga kursus anda"
                                         {...field}
+                                        className="no-spinner"
+                                        onWheel={(e) => e.currentTarget.blur()}
                                     />
                                 </FormControl>
                                 <FormMessage />

@@ -84,7 +84,7 @@ const CategoryForm = ({
         });
       }
 
-      toast.success("Course Category updated");
+      toast.success("✨ Kategori kursus berhasil diperbarui");
       toggleEdit();
       router.refresh();
     } catch (error: any) {
@@ -101,136 +101,105 @@ const CategoryForm = ({
   const selectedOption = options?.find(option => option.value === initialData.categoryId);
   
   return (
-    <Card className="bg-white border border-gray-200 shadow-sm">
-      <CardHeader className="space-y-1">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            <div className="p-2 bg-blue-50 rounded-lg">
-              <FolderOpen className="w-5 h-5 text-blue-500" />
+    <div className="mt-6 bg-slate-100 rounded-md p-4 dark:bg-gray-800">
+      <div className="font-medium flex items-center justify-between">
+        <span>Kategori Kursus</span>
+        <Button onClick={toggleEdit} variant="ghost">
+          {isEditing ? (
+            <>Kembali</>
+          ) : (
+            <>
+              <Pencil className="h-4 w-4 mr-2" />
+              Edit Kategori
+            </>
+          )}
+        </Button>
+      </div>
+      
+      {!isEditing && (
+        <div className="mt-2">
+          {!selectedOption ? (
+            <p className="text-sm text-gray-500 italic dark:text-gray-300">No category selected</p>
+          ) : (
+            <div className="flex items-center space-x-2 p-3 bg-gray-50 rounded-lg dark:bg-gray-700">
+              <Badge variant="secondary" className="px-3 py-1 bg-blue-100 text-blue-700 hover:bg-blue-200 dark:bg-blue-500 dark:text-blue-200">
+                {selectedOption.label}
+              </Badge>
+              <span className="text-sm text-gray-500 dark:text-gray-300">Kategori sekarang</span>
             </div>
-            <div>
-              <CardTitle className="text-xl font-semibold text-gray-800">Course Category</CardTitle>
-              <CardDescription className="text-sm text-gray-500">
-                Organize your course by selecting or creating a category
-              </CardDescription>
-            </div>
-          </div>
-          
-          {!isEditing && (
-            <Button
-              onClick={() => setIsEditing(true)}
-              variant="outline"
-              className="flex items-center gap-2 hover:bg-gray-50"
-            >
-              <Pencil className="w-4 h-4" />
-              Edit Category
-            </Button>
           )}
         </div>
-      </CardHeader>
-
-      <CardContent>
-        {!isEditing ? (
-          <div className="flex items-center space-x-2 p-3 bg-gray-50 rounded-lg">
-            {selectedOption ? (
-              <>
-                <Badge variant="secondary" className="px-3 py-1 bg-blue-100 text-blue-700 hover:bg-blue-200">
-                  {selectedOption.label}
-                </Badge>
-                <span className="text-sm text-gray-500">Current category</span>
-              </>
-            ) : (
-              <p className="text-sm text-gray-500 italic">No category selected</p>
-            )}
-          </div>
-        ) : (
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-              <div className="bg-gray-50 p-4 rounded-lg">
-                {!isAddingNewCategory ? (
-                  <FormField
-                    control={form.control}
-                    name="categoryId"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                          <Combobox
-                            options={options || []}
-                            disabled={isSubmitting}
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                ) : (
-                  <FormField
-                    control={form.control}
-                    name="newCategory"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                          <Input
-                            placeholder="Enter new category name..."
-                            disabled={isSubmitting}
-                            className="border-gray-200 focus:ring-blue-500"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                )}
-
-                <Button
-                  type="button"
-                  variant="ghost"
-                  onClick={() => setIsAddingNewCategory(prev => !prev)}
-                  className="mt-3 text-blue-600 hover:text-blue-700 hover:bg-blue-50"
-                >
-                  {isAddingNewCategory ? (
-                    <>
-                      <ArrowLeft className="w-4 h-4 mr-2" />
-                      Back to existing categories
-                    </>
-                  ) : (
-                    <>
-                      <Plus className="w-4 h-4 mr-2" />
-                      Create new category
-                    </>
+      )}
+  
+      {isEditing && (
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 mt-4 dark:text-gray-300">
+            <div className="bg-gray-50 p-4 rounded-lg dark:bg-gray-700">
+              {!isAddingNewCategory ? (
+                <FormField
+                  control={form.control}
+                  name="categoryId"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Combobox options={options || []} disabled={isSubmitting} {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
                   )}
-                </Button>
-              </div>
-
-              <div className="flex items-center gap-3 pt-2">
-                <Button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="bg-blue-600 hover:bg-blue-700"
-                >
-                  <Save className="w-4 h-4 mr-2" />
-                  {isSubmitting ? "Saving..." : "Save Category"}
-                </Button>
-                
-                <Button
-                  type="button"
-                  variant="ghost"
-                  onClick={() => {
-                    setIsEditing(false);
-                    setIsAddingNewCategory(false);
-                  }}
-                  className="text-gray-600 hover:text-gray-800"
-                >
-                  Cancel
-                </Button>
-              </div>
-            </form>
-          </Form>
-        )}
-      </CardContent>
-    </Card>
+                />
+              ) : (
+                <FormField
+                  control={form.control}
+                  name="newCategory"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Input
+                          placeholder="Masukan kategori baru..."
+                          disabled={isSubmitting}
+                          className="border-gray-200 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              )}
+  
+              <Button
+                type="button"
+                variant="ghost"
+                onClick={() => setIsAddingNewCategory((prev) => !prev)}
+                className="mt-3 text-blue-600 hover:text-blue-700 hover:bg-blue-50 dark:text-blue-400 dark:hover:bg-blue-600"
+              >
+                {isAddingNewCategory ? (
+                  <>
+                    <ArrowLeft className="w-4 h-4 mr-2" />
+                    Kembali ke pilihan kategori
+                  </>
+                ) : (
+                  <>
+                    <Plus className="w-4 h-4 mr-2" />
+                    Tambahkan kategori baru
+                  </>
+                )}
+              </Button>
+            </div>
+  
+            <div className="flex items-center gap-x-2">
+              <Button
+                disabled={!isValid || isSubmitting}
+                type="submit"
+              >
+                Simpan
+              </Button>
+            </div>
+          </form>
+        </Form>
+      )}
+    </div>
   )
 }
 

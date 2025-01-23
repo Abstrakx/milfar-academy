@@ -17,12 +17,16 @@ model Course {
   price Float?
   isPublished Boolean @default(false)
 
+  hasDiscount Boolean @default(false) 
+  discountPrice Float? 
+
   categoryId String?
   category Category? @relation(fields: [categoryId], references: [id])
 
   chapters Chapter[]
   attachments Attachment[]
   purchases Purchase[]
+  coupons Coupon[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -114,6 +118,22 @@ model Purchase {
 
   @@index([courseId])
 }
+
+model Coupon {
+  id String @id @default(uuid())
+  name String @unique 
+  discountPercentage Float 
+  isActive Boolean @default(true) 
+
+  courseId String? 
+  course Course? @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([courseId])
+}
+
 
 model MidtransCustomer {
   id String @id @default(uuid())
