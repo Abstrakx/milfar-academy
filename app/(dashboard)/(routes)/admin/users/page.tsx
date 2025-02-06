@@ -4,7 +4,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Users, Activity, Settings } from 'lucide-react';
+import { Users, Settings, Calendar } from 'lucide-react';
 
 const AdminDashboard = async () => {
   // Fetch users from the database
@@ -25,10 +25,21 @@ const AdminDashboard = async () => {
   const totalUsers = await db.profile.count();
   const adminUsers = await db.profile.count({ where: { role: 'ADMIN' } });
 
+  const oneMonthAgo = new Date();
+  oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
+
+  const usersLastMonth = await db.profile.count({
+    where: {
+      createdAt: {
+        gte: oneMonthAgo,
+      },
+    },
+  });
+
   return (
     <div className="p-6 space-y-6">
       {/* Overview Section */}
-      <div className="grid gap-4 md:grid-cols-2">
+      <div className="grid gap-4 md:grid-cols-3">
         <Card>
           <CardContent className="p-6">
             <div className="flex items-center space-x-4">
@@ -36,7 +47,7 @@ const AdminDashboard = async () => {
                 <Users className="h-6 w-6 text-blue-600" />
               </div>
               <div>
-                <p className="text-sm font-medium text-gray-500">Total Users</p>
+                <p className="text-sm font-medium text-gray-500">Total Pengguna</p>
                 <h3 className="text-2xl font-bold">{totalUsers}</h3>
               </div>
             </div>
@@ -50,8 +61,23 @@ const AdminDashboard = async () => {
                 <Settings className="h-6 w-6 text-purple-600" />
               </div>
               <div>
-                <p className="text-sm font-medium text-gray-500">Admin Users</p>
+                <p className="text-sm font-medium text-gray-500">Pengguna Admin</p>
                 <h3 className="text-2xl font-bold">{adminUsers}</h3>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* New Card for Users Joined in the Last Month */}
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center space-x-4">
+              <div className="p-2 bg-green-100 rounded-full">
+                <Calendar className="h-6 w-6 text-green-600" />
+              </div>
+              <div>
+                <p className="text-sm font-medium text-gray-500">Pengguna Bergabung Bulan Lalu</p>
+                <h3 className="text-2xl font-bold">{usersLastMonth}</h3>
               </div>
             </div>
           </CardContent>
@@ -61,18 +87,18 @@ const AdminDashboard = async () => {
       {/* Recent Users Section */}
       <Card>
         <CardHeader>
-          <CardTitle>Recent Users</CardTitle>
-          <CardDescription>A list of users who recently joined the platform.</CardDescription>
+          <CardTitle>Pengguna Terbaru</CardTitle>
+          <CardDescription>Daftar pengguna yang baru bergabung di platform.</CardDescription>
         </CardHeader>
         <CardContent>
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>User</TableHead>
+                <TableHead>Pengguna</TableHead>
                 <TableHead>Email</TableHead>
-                <TableHead>Role</TableHead>
-                <TableHead>Join Date</TableHead>
-                <TableHead>Actions</TableHead>
+                <TableHead>Peran</TableHead>
+                <TableHead>Tanggal Bergabung</TableHead>
+                <TableHead>Tindakan</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>

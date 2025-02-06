@@ -68,12 +68,15 @@ const ArticleContentForm = ({
                     <FormField 
                         control={form.control}
                         name="content"
-                        render={() => (
+                        render={({ field }) => (
                             <FormItem>
                                 <FormControl>
                                     <Editor 
                                         value={content}
-                                        onChange={setContent}
+                                        onChange={(newValue) => {
+                                            setContent(newValue);  // Update local state
+                                            field.onChange(newValue);  // Sync with form
+                                        }}
                                     />
                                 </FormControl>
                                 <FormMessage />

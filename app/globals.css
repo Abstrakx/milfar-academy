@@ -111,6 +111,18 @@ body {
   line-height: 1.1;
 }
 
+.prose h1 {
+  font-size: 2.5rem; 
+}
+
+.prose h2 {
+  font-size: 2rem; 
+}
+
+.prose h3 {
+  font-size: 1.75rem; 
+}
+
 .ProseMirror ul {
   padding: 0 1rem;
   list-style: disc !important;

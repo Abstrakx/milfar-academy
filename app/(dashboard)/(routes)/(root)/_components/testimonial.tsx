@@ -21,7 +21,7 @@ const testimonials = [
     title: "Pecinta Alam dan Pertanian",
     text: "Sebagai seorang hobiis, saya tidak pernah menyangka bisa mendalami ilmu pertanian dengan cara yang menyenangkan. Kursus ini membuka banyak peluang baru bagi saya!",
     avatar: "/person/alif.jpg",
-    rating: 4.5,
+    rating: 4,
   },
   {
     name: "Muhammad Dzaki Hanifa",

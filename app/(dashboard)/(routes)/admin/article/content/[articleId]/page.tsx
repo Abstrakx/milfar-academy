@@ -39,6 +39,7 @@ const ArticleIdPage = async ({
   const requiredFields = [
     article.title,
     article.content,
+    article.description,
     article.imageUrl,
   ];
 
