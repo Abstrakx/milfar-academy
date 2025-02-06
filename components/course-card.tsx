@@ -23,7 +23,7 @@ export const CourseCard = ({
   price,
 }: CourseCardProps) => {
   return (
-    <Link href={`/courses/${id}`}>
+    <Link href={`/course/${id}`}>
     <div className="group bg-white dark:bg-gray-800 hover:shadow-xl transition-all duration-300 rounded-xl overflow-hidden">
       <div className="relative">
         <div className="relative w-full aspect-video">

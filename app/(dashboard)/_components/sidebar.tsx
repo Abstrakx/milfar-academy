@@ -1,4 +1,4 @@
-import Logo from "./logo"
+import Logo from "@/components/logo";
 import SidebarRoutes from "./sidebar-routes"
 import NavbarRoutes from "@/components/navbar-routes";
 

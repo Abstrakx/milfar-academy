@@ -40,7 +40,9 @@ const Actions = ({
         
     } catch (error: any) {
         if (error.response) {
-            toast.error(`Server responded with ${error.response.status} error`);
+            toast.error(`Terdapat Kolom yang Belum Terisi`);
+            router.refresh();
+            setIsLoading(false);
         } else if (error.request) {
             toast.error("No response received from the server");
         } else {

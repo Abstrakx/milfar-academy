@@ -1,0 +1,87 @@
+"use client";
+
+import Image from "next/image";
+import Link from "next/link";
+import { useRef, useCallback } from "react";
+import useEmblaCarousel from "embla-carousel-react";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { Star, Users, Tag } from "lucide-react";
+import { formatPrice } from "@/lib/format";
+import { Course, Purchase } from "@prisma/client";
+
+interface CourseCardProps {
+  courses: (Course & { purchases: Purchase[] })[];
+}
+
+const CourseCard = ({ courses }: CourseCardProps) => {
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align: "start", slidesToScroll: 1 });
+
+  const scrollPrev = useCallback(() => emblaApi && emblaApi.scrollPrev(), [emblaApi]);
+  const scrollNext = useCallback(() => emblaApi && emblaApi.scrollNext(), [emblaApi]);
+
+  return (
+    <div className="max-w-7xl mx-auto px-4">
+      <div className="mt-16">
+        <div className="mb-6 flex justify-between items-center">
+          <h1 className="text-3xl font-bold text-gray-900">Kelas Unggulan</h1>
+          <div className="space-x-2">
+            <button onClick={scrollPrev} className="p-2 bg-gray-200 rounded-full">←</button>
+            <button onClick={scrollNext} className="p-2 bg-gray-200 rounded-full">→</button>
+          </div>
+        </div>
+
+        <div className="overflow-hidden" ref={emblaRef}>
+          <div className="flex space-x-4">
+            {courses.map((course) => (
+              <Link href={`/overview/${course.id}`} key={course.id} className="min-w-[100%] sm:min-w-[50%] lg:min-w-[33.33%]">
+                <Card className="shadow-lg mx-auto relative">
+                  <CardHeader className="flex flex-col items-center relative">
+                    <Image
+                      src={course.imageUrl || "/placeholder.svg"}
+                      alt={course.title}
+                      width={350}
+                      height={350}
+                      className="rounded-lg"
+                    />
+                    <CardTitle className="text-center mt-4 text-lg font-bold">{course.title}</CardTitle>
+                  </CardHeader>
+                  <CardContent className="text-center text-gray-600">
+                    <div className="flex flex-col space-y-2">
+                      <div className="flex items-center space-x-1">
+                        <Star className="w-5 h-5 text-yellow-400 fill-yellow-400" />
+                        <span>4.5</span>
+                      </div>
+                      <div className="flex items-center space-x-1">
+                        <Users className="w-5 h-5" />
+                        <span>{course.purchases.length} peserta</span>
+                      </div>
+                      <div className="flex items-center space-x-1">
+                        <Tag className="w-5 h-5" />
+                        {course.price ? (
+                          <span>
+                            {course.discountPrice && course.discountPrice < course.price ? (
+                              <>
+                                <span className="line-through text-red-500">{formatPrice(course.price)}</span>
+                                <span className="ml-2">{formatPrice(course.discountPrice)}</span>
+                              </>
+                            ) : (
+                              formatPrice(course.price)
+                            )}
+                          </span>
+                        ) : (
+                          <span>Gratis</span>
+                        )}
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default CourseCard;

@@ -97,7 +97,7 @@ const CourseIdPage = async ({
           {!course.isPublished && (
             <Banner
               variant="warning"
-              label="This course is unpublished. It will not be visible in the course"
+              label="Kursus ini belum dipublikasikan dan tidak akan terlihat di daftar kursus."
             />
           )}
 

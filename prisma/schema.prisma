@@ -8,6 +8,23 @@ datasource db {
   relationMode = "prisma"
 }
 
+enum MemberRole {
+  ADMIN
+  MEMBER
+}
+
+model Profile {
+  id String @id @default(uuid())
+  userId String @unique
+  name String
+  imageUrl String?  
+  email String  
+
+  role MemberRole @default(MEMBER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 model Course {
   id String @id @default(uuid())
   userId String
@@ -32,6 +49,19 @@ model Course {
   updatedAt DateTime @updatedAt
 
   @@index([categoryId])
+}
+
+model Article {
+  id String @id @default(uuid())
+  userId String
+  title String @db.Text
+  description String? @db.Text
+  content String? @db.Text
+  imageUrl String? @db.Text
+  isPublished Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Category {
@@ -116,6 +146,7 @@ model Purchase {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  @@unique([userId, courseId])
   @@index([courseId])
 }
 
@@ -133,7 +164,6 @@ model Coupon {
 
   @@index([courseId])
 }
-
 
 model MidtransCustomer {
   id String @id @default(uuid())

@@ -1,7 +1,7 @@
 import { Menu } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import Sidebar from "./sidebar"
-import Logo from "./logo"
+import Logo from "@/components/logo"
 
 const MobileSidebar = () => {
   return (

@@ -119,13 +119,13 @@ const CategoryForm = ({
       {!isEditing && (
         <div className="mt-2">
           {!selectedOption ? (
-            <p className="text-sm text-gray-500 italic dark:text-gray-300">No category selected</p>
+            <p className="text-sm text-gray-500 italic dark:text-gray-300">Tidak ada kategori terpilih.</p>
           ) : (
             <div className="flex items-center space-x-2 p-3 bg-gray-50 rounded-lg dark:bg-gray-700">
               <Badge variant="secondary" className="px-3 py-1 bg-blue-100 text-blue-700 hover:bg-blue-200 dark:bg-blue-500 dark:text-blue-200">
                 {selectedOption.label}
               </Badge>
-              <span className="text-sm text-gray-500 dark:text-gray-300">Kategori sekarang</span>
+              <span className="text-sm text-gray-500 dark:text-gray-300">Kategori terpilih</span>
             </div>
           )}
         </div>

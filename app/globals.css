@@ -9,6 +9,12 @@ body {
   height: 100%;
 }
 
+.overview-bg{
+  border-radius: 0px 0px 100px 100px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.59) 0%, rgba(79, 181, 88, 0.59) 100%);
+  padding-bottom: 5%;
+}
+
 :root {
   height: 100%;
 }
