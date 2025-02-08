@@ -7,10 +7,9 @@ import { Button } from "@/components/ui/button";
 import { Users, Settings, Calendar } from 'lucide-react';
 
 const AdminDashboard = async () => {
-  // Fetch users from the database
   const recentUsers = await db.profile.findMany({
     orderBy: {
-      createdAt: 'desc',
+      role: 'asc',
     },
     select: {
       id: true,
