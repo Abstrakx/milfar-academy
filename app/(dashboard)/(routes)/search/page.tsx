@@ -9,6 +9,7 @@ const SearchPage = async () => {
     },
     include: {
       category: true,
+      purchases: true,
       chapters: {
         where: {
           isPublished: true,
@@ -93,6 +94,7 @@ const SearchPage = async () => {
                 chaptersLength={course.chapters.length}
                 price={course.price || 0}
                 category={course.category?.name || 'Tidak ada kategori'}
+                purchasesLength={course.purchases.length}
               />
             ))
           ) : (

@@ -1,70 +1,85 @@
 "use client";
 
-import Image from "next/image"
+import Image from "next/image";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import useEmblaCarousel from "embla-carousel-react";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import { Article } from "@prisma/client";
+import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
+import Autoplay from "embla-carousel-autoplay";
 
-const ArticleCard = () => {
-  return (
-    <section className="py-16 bg-gray-50">
-    <div className="container mx-auto text-center">
-      <h2 className="text-3xl font-bold text-gray-900 mb-8">Kabar Milfar</h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-        {/* Card 1 */}
-        <div className="bg-white shadow-lg rounded-lg overflow-hidden">
-          <Image
-            src="/images/blog-1.jpg" 
-            alt="Blog Post 1"
-            width={500}
-            height={300}
-            className="w-full h-48 object-cover"
-          />
-          <div className="p-6">
-            <h3 className="text-xl font-semibold text-gray-800 mb-2">Cara Menanam Tanaman Pangan di Rumah</h3>
-            <p className="text-gray-600 text-sm mb-4">
-              Pelajari cara mudah menanam berbagai jenis tanaman pangan di halaman rumah Anda dengan panduan langkah demi langkah.
-            </p>
-            <p className="text-green-600 hover:text-green-700 font-semibold">Baca Selengkapnya &rarr;</p>
-          </div>
-        </div>
-
-        {/* Card 2 */}
-        <div className="bg-white shadow-lg rounded-lg overflow-hidden">
-          <Image
-            src="/images/blog-2.jpg" 
-            alt="Blog Post 2"
-            width={500}
-            height={300}
-            className="w-full h-48 object-cover"
-          />
-          <div className="p-6">
-            <h3 className="text-xl font-semibold text-gray-800 mb-2">Panduan Hidroponik untuk Pemula</h3>
-            <p className="text-gray-600 text-sm mb-4">
-              Jika Anda tertarik untuk memulai hidroponik, artikel ini memberikan panduan lengkap tentang cara memulai dengan mudah.
-            </p>
-            <p  className="text-green-600 hover:text-green-700 font-semibold">Baca Selengkapnya &rarr;</p>
-          </div>
-        </div>
-
-        {/* Card 3 */}
-        <div className="bg-white shadow-lg rounded-lg overflow-hidden">
-          <Image
-            src="/images/blog-3.jpg" 
-            alt="Blog Post 3"
-            width={500}
-            height={300}
-            className="w-full h-48 object-cover"
-          />
-          <div className="p-6">
-            <h3 className="text-xl font-semibold text-gray-800 mb-2">Tips Berkebun dengan Media Tanam Organik</h3>
-            <p className="text-gray-600 text-sm mb-4">
-              Temukan cara mudah dan ramah lingkungan untuk menanam dengan menggunakan media tanam organik yang dapat ditemukan di sekitar kita.
-            </p>
-            <p  className="text-green-600 hover:text-green-700 font-semibold">Baca Selengkapnya &rarr;</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-  )
+interface ArticleCardProps {
+  articles: Article[];
 }
 
-export default ArticleCard
+const ArticleCard = ({ articles }: ArticleCardProps) => {
+  const [emblaRef, emblaApi] = useEmblaCarousel(
+    { loop: true, align: "start" },
+    [WheelGesturesPlugin()]
+  );
+  const [selectedIndex, setSelectedIndex] = useState(0);
+
+  useEffect(() => {
+    if (!emblaApi) return;
+    emblaApi.on("select", () => {
+      setSelectedIndex(emblaApi.selectedScrollSnap());
+    });
+  }, [emblaApi]);
+
+  const truncateText = (text: string, maxLength: number) => {
+    return text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
+  };
+
+  return (
+    <section className="py-16 bg-gray-50">
+      <div className="max-w-7xl container mx-auto text-center">
+        <h2 className="text-3xl font-bold text-gray-900 mb-8">Kabar Milfar</h2>
+        <div className="relative flex justify-center sm:justify-start w-full">
+          <Carousel
+            orientation="horizontal"
+            plugins={[Autoplay({ delay: 3000 })]}
+            className="w-full overflow-hidden"
+            ref={emblaRef}
+          >
+            <CarouselContent className="flex gap-4 justify-center sm:justify-start">
+              {articles.map((article) => (
+                <CarouselItem
+                  key={article.id}
+                  className="flex-none w-[90%] sm:w-[48%] md:w-[32%] lg:w-[30%] p-4"
+                >
+                  <div className="bg-white shadow-lg rounded-lg overflow-hidden">
+                    <Link href={`/articles/${article.id}`}>
+                      <Image
+                        src={article.imageUrl || "/placeholder.svg"}
+                        alt={article.title}
+                        width={500}
+                        height={300}
+                        className="w-full h-48 object-cover"
+                      />
+                      <div className="p-6">
+                        <h3 className="text-xl font-semibold text-gray-800 mb-2">{article.title}</h3>
+                        <p className="text-gray-600 text-sm mb-4">
+                          {article.description && truncateText(article.description, 100)}
+                        </p>
+                        <p className="text-green-600 hover:text-green-700 font-semibold cursor-pointer">
+                          Baca Selengkapnya &rarr;
+                        </p>
+                      </div>
+                    </Link>
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+
+            {/* Navigation Arrows */}
+            <CarouselPrevious className="hidden md:flex absolute left-4 -translate-y-1/2 top-1/2 bg-background hover:bg-gray-50" />
+            <CarouselNext className="hidden md:flex absolute right-4 -translate-y-1/2 top-1/2 bg-background hover:bg-gray-50" />
+          </Carousel>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default ArticleCard;

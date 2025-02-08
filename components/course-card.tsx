@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { BookOpen, Star, Clock } from "lucide-react";
+import { BookOpen, Star, Users } from "lucide-react";
 
 import { IconBadge } from "@/components/icon-badge";
 import { formatPrice } from "@/lib/format";
@@ -12,6 +12,7 @@ interface CourseCardProps {
   chaptersLength: number;
   category: string;
   price: number;
+  purchasesLength: number;
 };
 
 export const CourseCard = ({
@@ -21,6 +22,7 @@ export const CourseCard = ({
   chaptersLength,
   category,
   price,
+  purchasesLength,
 }: CourseCardProps) => {
   return (
     <Link href={`/course/${id}`}>
@@ -50,8 +52,8 @@ export const CourseCard = ({
             <span>{chaptersLength} {chaptersLength === 1 ? "Bab" : "Bab"}</span>
           </div>
           <div className="flex items-center gap-1">
-            <Clock className="w-4 h-4" />
-            <span>2 Jam</span> {/* Dummy duration */}
+            <Users className="w-4 h-4" />
+            <span>{purchasesLength} peserta</span> 
           </div>
         </div>
         

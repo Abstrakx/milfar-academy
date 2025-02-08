@@ -10,7 +10,10 @@ import { formatPrice } from "@/lib/format";
 import { Course, Purchase } from "@prisma/client";
 
 interface CourseCardProps {
-  courses: (Course & { purchases: Purchase[] })[];
+  courses: (Course & { 
+    purchases: Purchase[]
+    category: { name: string } | null 
+  })[];
 }
 
 const CourseCard = ({ courses }: CourseCardProps) => {
@@ -24,9 +27,13 @@ const CourseCard = ({ courses }: CourseCardProps) => {
       <div className="mt-16">
         <div className="mb-6 flex justify-between items-center">
           <h1 className="text-3xl font-bold text-gray-900">Kelas Unggulan</h1>
-          <div className="space-x-2">
-            <button onClick={scrollPrev} className="p-2 bg-gray-200 rounded-full">←</button>
-            <button onClick={scrollNext} className="p-2 bg-gray-200 rounded-full">→</button>
+          <div className="flex items-center space-x-2">
+            <button onClick={scrollPrev} className="w-10 h-10 flex items-center justify-center border-2 border-gray-300 rounded-full hover:bg-gray-100 transition">
+              ←
+            </button>
+            <button onClick={scrollNext} className="w-10 h-10 flex items-center justify-center border-2 border-gray-300 rounded-full hover:bg-gray-100 transition">
+              →
+            </button>
           </div>
         </div>
 
@@ -44,6 +51,9 @@ const CourseCard = ({ courses }: CourseCardProps) => {
                       className="rounded-lg"
                     />
                     <CardTitle className="text-center mt-4 text-lg font-bold">{course.title}</CardTitle>
+                    <span className="absolute top-2 right-2 bg-sky-500 text-white px-2 py-1 rounded-full text-xs">
+                      {course.category?.name || 'No Category'}
+                    </span>
                   </CardHeader>
                   <CardContent className="text-center text-gray-600">
                     <div className="flex flex-col space-y-2">

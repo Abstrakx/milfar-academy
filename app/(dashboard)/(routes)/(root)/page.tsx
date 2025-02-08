@@ -14,6 +14,10 @@ export default async function Home() {
     },
   });
 
+  const articles = await db.article.findMany({
+    where: { isPublished: true },
+  })
+
   return (
     <div>
       <Hero />
@@ -21,9 +25,8 @@ export default async function Home() {
       <div className="container mx-auto p-4">
         <CourseCard courses={courses} />
         <HeroContent />
-        
       </div>
-      
+      <ArticleCard articles={articles}/>
     </div>
   );
 }
