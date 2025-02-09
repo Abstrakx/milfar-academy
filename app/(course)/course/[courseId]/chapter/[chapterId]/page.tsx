@@ -76,6 +76,10 @@ const ChapterIdPage = async ({
             <h2 className="text-2xl font-semibold mb-2">
               {chapter.title}
             </h2>
+            {purchase && (
+              purchase.courseId,
+              purchase.userId
+            )}
             {purchase ? (
               <CourseProgressButton
                 chapterId={params.chapterId}

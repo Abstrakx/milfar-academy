@@ -13,6 +13,12 @@ enum MemberRole {
   MEMBER
 }
 
+enum PurchaseStatus {
+  MANUAL
+  GATEAWAY
+}
+
+
 model Profile {
   id String @id @default(uuid())
   userId String @unique
@@ -142,12 +148,18 @@ model Purchase {
   course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
 
   transactionId String?
+  transactionPrice Float?
+  transactionStatus PurchaseStatus @default(MANUAL)
+  
+  couponId String?
+  coupon Coupon? @relation(fields: [couponId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@unique([userId, courseId])
   @@index([courseId])
+  @@index([couponId])
 }
 
 model Coupon {
@@ -158,6 +170,8 @@ model Coupon {
 
   courseId String? 
   course Course? @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  
+  purchases Purchase[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

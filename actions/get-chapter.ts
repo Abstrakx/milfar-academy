@@ -15,7 +15,6 @@ export const getChapter = async ({
     chapterId 
 }: getChapterProps) => {
     try {
-
         const purchase = await db.purchase.findUnique({
             where: {
                 userId_courseId: { 
