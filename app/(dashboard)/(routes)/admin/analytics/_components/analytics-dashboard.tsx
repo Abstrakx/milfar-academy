@@ -198,23 +198,26 @@ const AnalyticsDashboard = ({
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent className="w-[300px] p-0 sm:w-full">
-                  <Command>
-                    <CommandInput placeholder="Cari pengguna..." />
-                    <CommandList>
-                      <CommandGroup>
-                        {users.map((user) => (
-                          <CommandItem
-                            key={user.userId}
-                            value={user.userId}
-                            onSelect={() => setSelectedUser(prev => prev === user.userId ? "" : user.userId)}
-                            className="truncate"
-                          >
-                            {user.name} ({user.userId.slice(0, 10)}...)
-                          </CommandItem>
-                        ))}
-                      </CommandGroup>
-                    </CommandList>
-                  </Command>
+                <Command filter={(value, search) => {
+                  const user = users.find(u => u.userId === value);
+                  return user?.name.toLowerCase().includes(search.toLowerCase()) ? 1 : 0;
+                }}>
+                  <CommandInput placeholder="Cari pengguna..." />
+                  <CommandList>
+                    <CommandGroup>
+                      {users.map((user) => (
+                        <CommandItem
+                          key={user.userId}
+                          value={user.userId}
+                          onSelect={() => setSelectedUser(user.userId)}
+                          className="truncate"
+                        >
+                          {user.name} ({user.userId.slice(0, 10)}...)
+                        </CommandItem>
+                      ))}
+                    </CommandGroup>
+                  </CommandList>
+                </Command>
                 </PopoverContent>
               </Popover>
             </div>
@@ -235,7 +238,10 @@ const AnalyticsDashboard = ({
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent className="w-[300px] p-0 sm:w-full">
-                  <Command>
+                  <Command filter={(value, search) => {
+                    const course = courses.find(c => c.id === value);
+                    return course?.title.toLowerCase().includes(search.toLowerCase()) ? 1 : 0;
+                  }}>
                     <CommandInput placeholder="Cari kursus..." />
                     <CommandList>
                       <CommandGroup>
@@ -273,7 +279,10 @@ const AnalyticsDashboard = ({
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-[300px] p-0 sm:w-full">
-                    <Command>
+                    <Command filter={(value, search) => {
+                      const coupon = coupons.find(cp => cp.id === value);
+                      return coupon?.name.toLowerCase().includes(search.toLowerCase()) ? 1 : 0;
+                    }}>
                       <CommandInput placeholder="Cari kupon..." />
                       <CommandList>
                         <CommandGroup>
@@ -338,7 +347,7 @@ const AnalyticsDashboard = ({
                   <TableCell>
                     {new Date(tx.createdAt).toLocaleDateString('id-ID')}
                   </TableCell>
-                  <TableCell>{getUserName(tx.userId)}</TableCell>
+                  <TableCell>{getUserName(tx.userId)} ({tx.userId.slice(5, 10)}...)</TableCell>
                   <TableCell>{tx.course?.title || tx.courseId}</TableCell>
                   <TableCell>{tx.transactionStatus}</TableCell>
                   <TableCell>{tx.coupon?.name || "-"}</TableCell>
