@@ -17,7 +17,6 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Combobox } from "@/components/ui/combobox";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { DollarSign, BookOpen, TrendingUp } from "lucide-react";
 import { formatPrice } from "@/lib/format";
@@ -34,6 +33,10 @@ interface Transaction {
   course?: {
     title: string;
     price: number | null;
+  } | null;
+  coupon?: {
+    name: string;
+    discountPercentage: number | null;
   } | null;
 }
 
@@ -74,28 +77,6 @@ const AnalyticsDashboard = ({
   useEffect(() => {
     setSelectedCoupon("");
   }, [selectedCourse]);
-
-
-  const userOptions = users.map(user => ({
-    value: user.userId,
-    label: `${user.name} (${user.userId})`
-  }));
-
-  const courseOptions = courses.map(course => ({
-    value: course.id,
-    label: `${course.title} (${course.id})`
-  }));
-
-  const couponOptions = coupons
-    .filter(
-      (coupon) =>
-        coupon.isActive &&
-        (!coupon.courseId || coupon.courseId === selectedCourse)
-    )
-    .map((coupon) => ({
-      value: coupon.id,
-      label: `${coupon.name} (${coupon.discountPercentage}% off)`,
-  }));
 
   const handleAddPurchase = async () => {
     if (!selectedUser || !selectedCourse) return;
@@ -360,7 +341,7 @@ const AnalyticsDashboard = ({
                   <TableCell>{getUserName(tx.userId)}</TableCell>
                   <TableCell>{tx.course?.title || tx.courseId}</TableCell>
                   <TableCell>{tx.transactionStatus}</TableCell>
-                  <TableCell></TableCell>
+                  <TableCell>{tx.coupon?.name || "-"}</TableCell>
                   <TableCell>
                     {formatPrice(tx.transactionPrice || 0)}
                   </TableCell>
