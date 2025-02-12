@@ -1,7 +1,7 @@
 import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
 
-const CourseIdPage = async ({
+const KelasIdPage = async ({
   params
 }: {
   params: { courseId: string; }
@@ -23,11 +23,10 @@ const CourseIdPage = async ({
   });
 
   if (!course) {
-    console.error("Course not found.");
     return redirect("/");
   }
 
-  return redirect(`/course/${course.id}/chapter/${course.chapters[0].id}`);
+  return redirect(`/kelas/${course.id}/chapter/${course.chapters[0].id}`);
 }
  
-export default CourseIdPage;
+export default KelasIdPage;

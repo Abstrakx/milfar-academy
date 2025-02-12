@@ -29,9 +29,21 @@ export const getChapter = async ({
                 isPublished: true,
                 id: courseId,
             },
-            select: {
-                price: true,
-            }
+            include: {
+                chapters: {
+                  where: {
+                    isPublished: true,
+                  },
+                  orderBy: {
+                    position: "asc",
+                  },
+                  include: {
+                    userProgress: {
+                      where: { userId },
+                    },
+                  },
+                },
+            },
         });
 
         const chapter = await db.chapter.findUnique({

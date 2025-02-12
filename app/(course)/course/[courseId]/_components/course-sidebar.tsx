@@ -6,7 +6,6 @@ import { db } from "@/lib/db";
 import CourseProgress from "@/components/course-progress";
 
 import { CourseSidebarItem } from "./course-sidebar-item";
-import toast from "react-hot-toast";
 
 interface CourseSidebarProps {
   course: Course & {
@@ -24,7 +23,7 @@ export const CourseSidebar = async ({
   const { userId }: { userId: string | null } = await auth()
 
   if (!userId) {
-    toast.error("You need to be logged in to access this page.");
+    console.log("You need to be logged in to access this page.");
     return redirect("/");
   }
 

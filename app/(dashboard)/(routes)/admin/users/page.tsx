@@ -16,6 +16,7 @@ const AdminDashboard = async () => {
       name: true,
       email: true,
       role: true,
+      roleName: true,
       imageUrl: true,
       createdAt: true,
     },
@@ -23,17 +24,7 @@ const AdminDashboard = async () => {
 
   const totalUsers = await db.profile.count();
   const adminUsers = await db.profile.count({ where: { role: 'ADMIN' } });
-
-  const oneMonthAgo = new Date();
-  oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
-
-  const usersLastMonth = await db.profile.count({
-    where: {
-      createdAt: {
-        gte: oneMonthAgo,
-      },
-    },
-  });
+  const memberUsers = await db.profile.count({ where: { role: 'MEMBER' } });
 
   return (
     <div className="p-6 space-y-6">
@@ -67,7 +58,6 @@ const AdminDashboard = async () => {
           </CardContent>
         </Card>
 
-        {/* New Card for Users Joined in the Last Month */}
         <Card>
           <CardContent className="p-6">
             <div className="flex items-center space-x-4">
@@ -75,8 +65,8 @@ const AdminDashboard = async () => {
                 <Calendar className="h-6 w-6 text-green-600" />
               </div>
               <div>
-                <p className="text-sm font-medium text-gray-500">Pengguna Bergabung Bulan Lalu</p>
-                <h3 className="text-2xl font-bold">{usersLastMonth}</h3>
+                <p className="text-sm font-medium text-gray-500">Pengguna Biasa</p>
+                <h3 className="text-2xl font-bold">{memberUsers}</h3>
               </div>
             </div>
           </CardContent>
@@ -96,6 +86,7 @@ const AdminDashboard = async () => {
                 <TableHead>Pengguna</TableHead>
                 <TableHead>Email</TableHead>
                 <TableHead>Peran</TableHead>
+                <TableHead>Jabatan</TableHead>
                 <TableHead>Tanggal Bergabung</TableHead>
                 <TableHead>Tindakan</TableHead>
               </TableRow>
@@ -118,6 +109,7 @@ const AdminDashboard = async () => {
                       {user.role}
                     </Badge>
                   </TableCell>
+                  <TableCell>{user.roleName || "-"}</TableCell>
                   <TableCell>{new Date(user.createdAt).toLocaleDateString()}</TableCell>
                   <TableCell>
                     <Button variant="ghost" size="sm">Edit</Button>

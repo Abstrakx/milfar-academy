@@ -49,7 +49,7 @@ const ArticleCard = ({ articles }: ArticleCardProps) => {
                   className="flex-none w-[90%] sm:w-[48%] md:w-[32%] lg:w-[30%] p-4"
                 >
                   <div className="bg-white shadow-lg rounded-lg overflow-hidden">
-                    <Link href={`/articles/${article.id}`}>
+                    <Link href={`/artikel/${article.id}`}>
                       <Image
                         src={article.imageUrl || "/placeholder.svg"}
                         alt={article.title}

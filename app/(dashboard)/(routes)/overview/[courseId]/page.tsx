@@ -1,13 +1,10 @@
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { db } from "@/lib/db";
-import toast from "react-hot-toast";
 import Link from "next/link";
-import { CheckCircle, Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import NavbarUser from "@/app/(dashboard)/_components/navbar-user";
-import FooterUser from "@/app/(dashboard)/_components/footer-user";
 import { OverviewVideoPlayer } from "./_components/overview-video-player";
+import ClientPurchase from "./_components/purchase-handler";
 
 interface OverviewPageProps {
   params: {
@@ -43,8 +40,16 @@ const OverviewPage = async ({ params }: OverviewPageProps) => {
     },
   });
 
+  const purchase = await db.purchase.findUnique({
+    where: {
+        userId_courseId: { 
+            userId,
+            courseId: params.courseId,
+        },
+      }
+  });
+
   if (!course) {
-    toast.error("Course not found.");
     return redirect("/");
   }
 
@@ -52,7 +57,6 @@ const OverviewPage = async ({ params }: OverviewPageProps) => {
 
   return (
     <div>
-      <NavbarUser />
       {/* Hero section with Video */}
       <div className="overview-bg flex flex-col items-center justify-center mt-5 space-y-12 relative">
         <div className="flex flex-col items-center text-center max-w-lg mt-5">
@@ -84,44 +88,11 @@ const OverviewPage = async ({ params }: OverviewPageProps) => {
           <h2 className="text-2xl sm:text-3xl font-semibold text-gray-900 mb-6 sm:mb-8 text-left">
             Daftar Materi Pembelajaran
           </h2>
-          <ol className="space-y-4 list-decimal pl-6">
-            {course.chapters.map((chapter) => {
-              const isCompleted =
-                chapter.userProgress && chapter.userProgress.length > 0;
 
-              const listItem = (
-                <li
-                  key={chapter.id}
-                  className="flex items-center justify-between bg-white shadow-sm rounded-lg p-4 mb-3"
-                >
-                  <div className="flex items-center gap-2">
-                    <span className="text-sm sm:text-lg text-gray-700">
-                      {chapter.title}
-                    </span>
-                    {isCompleted && (
-                      <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-green-500" />
-                    )}
-                  </div>
-                  {!chapter.isFree && (
-                    <Lock className="w-4 h-4 sm:w-5 sm:h-5 text-gray-500" />
-                  )}
-                </li>
-              );
-
-              return chapter.isFree ? (
-                <Link
-                  href={`/course/${course.id}/chapter/${chapter.id}`}
-                  key={chapter.id}
-                >
-                  {listItem}
-                </Link>
-              ) : (
-                <div key={chapter.id}>{listItem}</div>
-              );
-            })}
-          </ol>
+          <ClientPurchase course={course} chapters={course.chapters} purchase={purchase} title={course.title} price={course.price || 0} />
         </div>
       </div>
+
 
       {/* Additional Options */}
       <div className="py-12 bg-white">
@@ -152,9 +123,6 @@ const OverviewPage = async ({ params }: OverviewPageProps) => {
           Testimoni dan Review
         </h2>
       </div>
-
-      {/* Footer */}
-      <FooterUser />
     </div>
   );
 };

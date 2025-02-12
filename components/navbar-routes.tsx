@@ -1,6 +1,6 @@
 "use client";
 
-import { UserButton } from "@clerk/nextjs";
+import { ClerkProvider, SignInButton, SignedIn, SignedOut, UserButton } from '@clerk/nextjs'
 import { usePathname, useRouter } from "next/navigation";
 import { Button } from "./ui/button";
 import { LogOut, LockKeyhole } from "lucide-react";
@@ -41,7 +41,12 @@ const NavbarRoutes = () => {
                 </Button>
             </Link>
         )}
-        <UserButton />
+            <SignedOut>
+              <SignInButton mode='modal' />
+            </SignedOut>
+            <SignedIn>
+              <UserButton />
+            </SignedIn>
     </div>
   )
 }
