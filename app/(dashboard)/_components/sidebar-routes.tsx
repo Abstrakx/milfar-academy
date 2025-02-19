@@ -13,7 +13,7 @@ const StudentRoutes = [
     {
         icon: Compass,
         label: "Kelas",
-        href: "/search",
+        href: "/kelas",
     },
     {
         icon: Newspaper,

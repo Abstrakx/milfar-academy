@@ -134,7 +134,7 @@ const CourseCard = ({ courses }: CourseCardProps) => {
         </div>
 
         {/* Desktop Grid Layout (3 columns, all courses) */}
-        <h1 className="text-3xl font-bold text-gray-900 mb-6">Kelas Unggulan</h1>
+        <h1 className="hidden md:block lg:block text-3xl font-bold text-gray-900 mb-6">Kelas Unggulan</h1>
         <div className="hidden lg:grid grid-cols-3 gap-4">
           {courses.map((course) => (
             <Link href={`/overview/${course.id}`} key={course.id}>
