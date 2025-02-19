@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useRef, useCallback } from "react";
+import { useCallback } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Star, Users, Tag } from "lucide-react";
@@ -13,8 +13,15 @@ interface CourseCardProps {
   courses: (Course & { 
     purchases: Purchase[]
     category: { name: string } | null 
+    reviews: { rating: number }[]
   })[];
 }
+
+const calculateAverageRating = (reviews: { rating: number }[]) => {
+  if (reviews.length === 0) return 0;
+  const total = reviews.reduce((sum, review) => sum + review.rating, 0);
+  return (total / reviews.length).toFixed(1);
+};
 
 const CourseCard = ({ courses }: CourseCardProps) => {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align: "start", slidesToScroll: 1 });
@@ -59,7 +66,12 @@ const CourseCard = ({ courses }: CourseCardProps) => {
                     <div className="flex flex-col space-y-2">
                       <div className="flex items-center space-x-1">
                         <Star className="w-5 h-5 text-yellow-400 fill-yellow-400" />
-                        <span>4.5</span>
+                        <span>
+                          {calculateAverageRating(course.reviews)}
+                          <span className="text-xs text-gray-500 ml-1">
+                            ({course.reviews.length} review{course.reviews.length !== 1 && 's'})
+                          </span>
+                        </span>
                       </div>
                       <div className="flex items-center space-x-1">
                         <Users className="w-5 h-5" />

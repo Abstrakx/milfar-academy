@@ -23,6 +23,7 @@ export default async function getSafeProfile() {
           imageUrl: true,
           email: true,
           role: true,
+          roleName: true,
           createdAt: true,
           updatedAt: true,
         },

@@ -3,28 +3,22 @@
 import dynamic from "next/dynamic";
 import { useRef, useState } from "react";
 import { Lock, Loader2 } from "lucide-react";
+import { APITypes } from "plyr-react"; 
 
 const Plyr = dynamic(() => import("plyr-react"), { ssr: false });
 import "plyr-react/plyr.css";
 
 interface OverviewVideoPlayerProps {
   playbackId?: string | null;
-  courseId: string;
-  chapterId: string;
   isLocked: boolean;
-  completeOnEnd: boolean;
-  title: string;
 }
 
 export const OverviewVideoPlayer = ({
   playbackId,
-  courseId,
-  chapterId,
   isLocked,
-  completeOnEnd,
 }: OverviewVideoPlayerProps) => {
   const [isReady] = useState(false);
-  const playerRef = useRef<any>(null);
+  const playerRef = useRef<APITypes | null>(null); 
 
   return (
     <div className="relative aspect-video">
@@ -41,7 +35,7 @@ export const OverviewVideoPlayer = ({
       )}
       {!isLocked && playbackId && (
         <Plyr
-          ref={playerRef}
+          ref={playerRef} 
           source={{
             type: "video",
             sources: [

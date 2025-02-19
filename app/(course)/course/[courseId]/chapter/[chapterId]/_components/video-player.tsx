@@ -30,7 +30,7 @@ export const VideoPlayer = ({
 }: VideoPlayerProps) => {
   const [isReady, setIsReady] = useState(false);
   const router = useRouter();
-  const playerRef = useRef<any>(null);
+  const playerRef = useRef<{ plyr: any } | null>(null);
 
   const onEnd = async () => {
     try {
@@ -65,7 +65,7 @@ export const VideoPlayer = ({
 
       player.on("ended", onEnd);
     }
-  }, [playbackId]);
+  }, [playbackId, onEnd]);
 
   return (
     <div className="relative aspect-video">

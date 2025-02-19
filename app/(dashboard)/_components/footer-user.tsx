@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image"
+import Link from "next/link"
 
 const FooterUser = () => {
   return (
@@ -16,18 +17,18 @@ const FooterUser = () => {
           />
         </div>
         <div className="flex space-x-6">
-          <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
-            <img src="/instagram.png" alt="Instagram" className="w-30 h-30" />
-          </a>
-          <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
-            <img src="/facebook.png" alt="Facebook" className="w-19 h-30" />
-          </a>
-          <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer">
-            <img src="/tiktok.png" alt="TikTok" className="w-26 h-30" />
-          </a>
-          <a href="https://youtube.com" target="_blank" rel="noopener noreferrer">
-            <img src="/youtube.png" alt="YouTube" className="w-43 h-30" />
-          </a>
+          <Link href="https://instagram.com" target="_blank" rel="noopener noreferrer">
+            <Image width={30} height={30} src="/instagram.png" alt="Instagram" />
+          </Link>
+          <Link href="https://facebook.com" target="_blank" rel="noopener noreferrer">
+            <Image width={19} height={30} src="/facebook.png" alt="Facebook" />
+          </Link>
+          <Link href="https://tiktok.com" target="_blank" rel="noopener noreferrer">
+            <Image width={26} height={30} src="/tiktok.png" alt="TikTok" />
+          </Link>
+          <Link href="https://youtube.com" target="_blank" rel="noopener noreferrer">
+            <Image width={43} height={30} src="/youtube.png" alt="YouTube" />
+          </Link>
         </div>
       </div>
 

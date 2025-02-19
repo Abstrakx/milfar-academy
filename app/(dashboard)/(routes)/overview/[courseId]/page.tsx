@@ -1,10 +1,10 @@
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { db } from "@/lib/db";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
+import { getCourseReviews } from "@/actions/get-review";
 import { OverviewVideoPlayer } from "./_components/overview-video-player";
 import ClientPurchase from "./_components/purchase-handler";
+import TestimonialOverview from "./_components/testimonial-carousel";
 
 interface OverviewPageProps {
   params: {
@@ -49,6 +49,8 @@ const OverviewPage = async ({ params }: OverviewPageProps) => {
       }
   });
 
+  const reviews = await getCourseReviews(params.courseId);
+
   if (!course) {
     return redirect("/");
   }
@@ -69,11 +71,7 @@ const OverviewPage = async ({ params }: OverviewPageProps) => {
             {freeChapter ? (
               <OverviewVideoPlayer
                 playbackId={freeChapter.videoUrl}
-                courseId={course.id}
-                chapterId={freeChapter.id}
                 isLocked={false}
-                completeOnEnd={false} 
-                title={freeChapter.title}
               />
             ) : (
               <p className="p-4 text-center">No free chapter available.</p>
@@ -93,20 +91,8 @@ const OverviewPage = async ({ params }: OverviewPageProps) => {
         </div>
       </div>
 
-
-      {/* Additional Options */}
-      <div className="py-12 bg-white">
-        <div className="max-w-5xl mx-auto px-4">
-          <div className="flex flex-wrap gap-4 justify-start">
-            <Button className="w-auto">E-Book</Button>
-            <Button className="w-auto">Sertifikat</Button>
-            <Button className="w-auto">Group Konsultasi</Button>
-          </div>
-        </div>
-      </div>
-
       {/* About the Class */}
-      <div className="py-12 bg-gray-50">
+      <div className="py-12 bg-white">
         <div className="max-w-5xl mx-auto px-4">
           <h2 className="text-3xl font-semibold text-gray-900 mb-4 text-left">
             Tentang Kelas
@@ -118,10 +104,15 @@ const OverviewPage = async ({ params }: OverviewPageProps) => {
       </div>
 
       {/* Testimonials */}
-      <div className="max-w-5xl mx-auto px-4">
-        <h2 className="text-3xl font-semibold text-gray-900 mb-4 text-left">
-          Testimoni dan Review
-        </h2>
+      <div className="py-12 bg-gray-50">
+        <div className="max-w-5xl mx-auto px-4">
+          <h2 className="text-3xl font-semibold text-gray-900 mb-4 text-left">
+            Testimoni dan Review
+          </h2>
+        </div>
+        <div className="max-w-6xl mx-auto px-4 mb-10">
+            <TestimonialOverview testimonials={reviews} />
+        </div>
       </div>
     </div>
   );

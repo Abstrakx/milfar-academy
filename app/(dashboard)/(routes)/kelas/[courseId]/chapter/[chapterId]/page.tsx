@@ -113,10 +113,10 @@ const KelasPage = async ({
                     >
                     <div className="flex items-center gap-2">
                         <span className="text-sm sm:text-lg text-gray-700">
-                        {chapter.title}
+                          {chapter.title}
                         </span>
                         {isCompleted && (
-                        <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-green-500" />
+                          <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-green-500" />
                         )}
                     </div>
                     

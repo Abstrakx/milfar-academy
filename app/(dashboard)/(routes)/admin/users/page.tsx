@@ -1,16 +1,11 @@
 import { db } from '@/lib/db';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Users, Settings, Calendar } from 'lucide-react';
+import RecentUsersTable from './_components/users-tables';
 
 const AdminDashboard = async () => {
   const recentUsers = await db.profile.findMany({
-    orderBy: {
-      role: 'asc',
-    },
+    orderBy: { role: 'asc' },
     select: {
       id: true,
       name: true,
@@ -80,44 +75,7 @@ const AdminDashboard = async () => {
           <CardDescription>Daftar pengguna yang baru bergabung di platform.</CardDescription>
         </CardHeader>
         <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Pengguna</TableHead>
-                <TableHead>Email</TableHead>
-                <TableHead>Peran</TableHead>
-                <TableHead>Jabatan</TableHead>
-                <TableHead>Tanggal Bergabung</TableHead>
-                <TableHead>Tindakan</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {recentUsers.map((user) => (
-                <TableRow key={user.id}>
-                  <TableCell>
-                    <div className="flex items-center space-x-3">
-                      <Avatar>
-                        <AvatarImage src={user.imageUrl || '/default-avatar.png'} alt={user.name} />
-                        <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
-                      </Avatar>
-                      <span className="font-medium">{user.name}</span>
-                    </div>
-                  </TableCell>
-                  <TableCell>{user.email}</TableCell>
-                  <TableCell>
-                    <Badge variant={user.role === 'ADMIN' ? 'destructive' : 'secondary'}>
-                      {user.role}
-                    </Badge>
-                  </TableCell>
-                  <TableCell>{user.roleName || "-"}</TableCell>
-                  <TableCell>{new Date(user.createdAt).toLocaleDateString()}</TableCell>
-                  <TableCell>
-                    <Button variant="ghost" size="sm">Edit</Button>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+          <RecentUsersTable users={recentUsers} />
         </CardContent>
       </Card>
     </div>

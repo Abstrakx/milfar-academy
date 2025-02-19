@@ -1,13 +1,20 @@
 "use client";
 
-import { ClerkProvider, SignInButton, SignOutButton, SignedIn, SignedOut, UserButton } from '@clerk/nextjs'
-import { useState } from "react";
+import { SignInButton, SignOutButton, SignedIn, SignedOut, useUser } from '@clerk/nextjs';
 import { Button } from "@/components/ui/button";
-import { Menu, ArrowRight } from "lucide-react";
+import { Menu, ArrowRight, LockKeyhole } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import Sidebar from "./sidebar"; 
+import Sidebar from "./sidebar";
+import { useEffect, useState } from 'react';
+import { cn } from "@/lib/utils";
+
+interface Profile {
+  id: string;
+  userId: string;
+  role: 'ADMIN' | 'USER'; 
+}
 
 const routes = [
   {
@@ -25,7 +32,34 @@ const routes = [
 ];
 
 const NavbarUser = () => {
-  const [isOpen] = useState(false);
+  const { isSignedIn } = useUser();
+  const [profile, setProfile] = useState<Profile | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (!isSignedIn) {
+      setProfile(null);
+      setLoading(false);
+      return;
+    }
+
+    const fetchProfile = async () => {
+      setLoading(true);
+      try {
+        const response = await fetch('/api/profile', { cache: 'no-store' });
+        if (!response.ok) throw new Error('Failed to fetch profile');
+        const data = await response.json();
+        setProfile(data);
+      } catch (error) {
+        console.error(error);
+        setProfile(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProfile();
+  }, [isSignedIn]);
 
   return (
     <nav className="bg-white border-b border-gray-200 shadow-lg">
@@ -54,24 +88,36 @@ const NavbarUser = () => {
           ))}
         </div>
 
-        {/* Login Button (Hidden on Mobile) */}
+        {/* Right Section */}
         <div className="hidden md:flex items-center justify-center space-x-4">
-            <SignedOut>
-                <SignInButton mode="modal">
-                <Button variant="default">Masuk</Button>
-                </SignInButton>
-            </SignedOut>
-            <SignedIn>
-                <div className="flex items-center space-x-4">
-                <UserButton />
-                <SignOutButton>
-                    <Button variant="destructive" className="flex items-center gap-2">
-                    <span>Logout</span>
-                    <ArrowRight className="w-4 h-4" />
-                    </Button>
-                </SignOutButton>
-                </div>
-            </SignedIn>
+          <SignedOut>
+            <SignInButton mode="modal">
+              <Button variant="default">Masuk</Button>
+            </SignInButton>
+          </SignedOut>
+          
+          <SignedIn>
+            <div className="flex items-center space-x-4">
+              {!loading && profile?.role === 'ADMIN' && (
+            <Link 
+              href="/admin/course"
+            >
+                <Button 
+                    className={cn("font-medium font-sans text-white bg-black hover:bg-gray-800 hover:text-white mr-1")} 
+                    variant="outline"
+                >
+                    <LockKeyhole /> Admin Mode
+                </Button>
+            </Link>
+              )}
+              <SignOutButton>
+                <Button variant="destructive" className="flex items-center gap-2">
+                  <span>Logout</span>
+                  <ArrowRight className="w-4 h-4" />
+                </Button>
+              </SignOutButton>
+            </div>
+          </SignedIn>
         </div>
 
         {/* Mobile Sidebar Trigger */}

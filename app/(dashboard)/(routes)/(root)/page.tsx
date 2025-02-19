@@ -36,6 +36,7 @@ export default async function Home() {
     include: {
       purchases: true,
       category: true,
+      reviews: true,
     },
     take: 6,
   });

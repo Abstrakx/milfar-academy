@@ -1,73 +1,206 @@
+"use client";
+
+import { useCallback } from "react";
+import useEmblaCarousel from "embla-carousel-react";
 import Image from "next/image";
 import Link from "next/link";
-import { BookOpen, Star, Users } from "lucide-react";
-
-import { IconBadge } from "@/components/icon-badge";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { Star, Users, Tag } from "lucide-react";
 import { formatPrice } from "@/lib/format";
+import { Course, Purchase } from "@prisma/client";
 
 interface CourseCardProps {
-  id: string;
-  title: string;
-  imageUrl: string;
-  chaptersLength: number;
-  category: string;
-  price: number;
-  purchasesLength: number;
+  courses: (Course & { 
+    purchases: Purchase[];
+    category: { name: string } | null;
+    reviews: { rating: number }[];
+  })[];
+}
+
+const calculateAverageRating = (reviews: { rating: number }[]) => {
+  if (reviews.length === 0) return 0;
+  const total = reviews.reduce((sum, review) => sum + review.rating, 0);
+  return (total / reviews.length).toFixed(1);
 };
 
-export const CourseCard = ({
-  id,
-  title,
-  imageUrl,
-  chaptersLength,
-  category,
-  price,
-  purchasesLength,
-}: CourseCardProps) => {
+const CourseCard = ({ courses }: CourseCardProps) => {
+  const [emblaRef, emblaApi] = useEmblaCarousel({
+    loop: true,
+    align: "start",
+    slidesToScroll: 1,
+  });
+
+  const scrollPrev = useCallback(
+    () => emblaApi && emblaApi.scrollPrev(),
+    [emblaApi]
+  );
+  const scrollNext = useCallback(
+    () => emblaApi && emblaApi.scrollNext(),
+    [emblaApi]
+  );
+
   return (
-    <Link href={`/course/${id}`}>
-    <div className="group bg-white dark:bg-gray-800 hover:shadow-xl transition-all duration-300 rounded-xl overflow-hidden">
-      <div className="relative">
-        <div className="relative w-full aspect-video">
-          <Image
-            fill
-            className="object-cover transform group-hover:scale-105 transition-transform duration-300"
-            alt={title}
-            src={imageUrl || "/api/placeholder/400/300"}
-          />
+    <div className="max-w-7xl mx-auto px-4">
+      <div className="mt-16">
+
+        {/* Mobile Carousel */}
+        <div className="block lg:hidden">
+        <div className="mb-6 flex justify-between items-center">
+        <h1 className="text-2xl font-bold text-gray-900 mb-6">Kelas Unggulan</h1>
+          <div className="mb-4 flex justify-end space-x-2">
+            <button
+              onClick={scrollPrev}
+              className="w-9 h-9 flex items-center justify-center border-2 border-gray-300 rounded-full hover:bg-gray-100 transition"
+            >
+              ←
+            </button>
+            <button
+              onClick={scrollNext}
+              className="w-9 h-9 flex items-center justify-center border-2 border-gray-300 rounded-full hover:bg-gray-100 transition"
+            >
+              →
+            </button>
+            </div>
+          </div>
+          <div className="overflow-hidden" ref={emblaRef}>
+            <div className="flex space-x-4">
+              {courses.map((course) => (
+                <Link
+                  href={`/overview/${course.id}`}
+                  key={course.id}
+                  className="min-w-[100%]"
+                >
+                  <Card className="shadow-lg mx-auto relative">
+                    <CardHeader className="flex flex-col items-center relative">
+                      <Image
+                        src={course.imageUrl || "/placeholder.svg"}
+                        alt={course.title}
+                        width={350}
+                        height={350}
+                        className="rounded-lg"
+                      />
+                      <CardTitle className="text-center mt-4 text-lg font-bold">
+                        {course.title}
+                      </CardTitle>
+                      <span className="absolute top-2 right-2 bg-sky-500 text-white px-2 py-1 rounded-full text-xs">
+                        {course.category?.name || "No Category"}
+                      </span>
+                    </CardHeader>
+                    <CardContent className="text-center text-gray-600">
+                      <div className="flex flex-col space-y-2">
+                        <div className="flex items-center space-x-1">
+                          <Star className="w-5 h-5 text-yellow-400 fill-yellow-400" />
+                          <span>
+                            {calculateAverageRating(course.reviews)}
+                            <span className="text-xs text-gray-500 ml-1">
+                              ({course.reviews.length} review
+                              {course.reviews.length !== 1 && "s"})
+                            </span>
+                          </span>
+                        </div>
+                        <div className="flex items-center space-x-1">
+                          <Users className="w-5 h-5" />
+                          <span>{course.purchases.length} peserta</span>
+                        </div>
+                        <div className="flex items-center space-x-1">
+                          <Tag className="w-5 h-5" />
+                          {course.price ? (
+                            <span>
+                              {course.discountPrice &&
+                              course.discountPrice < course.price ? (
+                                <>
+                                  <span className="line-through text-red-500">
+                                    {formatPrice(course.price)}
+                                  </span>
+                                  <span className="ml-2">
+                                    {formatPrice(course.discountPrice)}
+                                  </span>
+                                </>
+                              ) : (
+                                formatPrice(course.price)
+                              )}
+                            </span>
+                          ) : (
+                            <span>Gratis</span>
+                          )}
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </Link>
+              ))}
+            </div>
+          </div>
         </div>
-        <span className="absolute top-2 right-2 bg-sky-500 text-white px-2 py-1 rounded-full text-xs">
-          {category}
-        </span>
-      </div>
-      
-      <div className="p-4">
-        <h3 className="text-lg font-semibold group-hover:text-sky-600 transition-colors line-clamp-2 mb-2">
-          {title}
-        </h3>
-        
-        <div className="flex items-center gap-4 text-sm text-gray-600 dark:text-gray-300 mb-3">
-          <div className="flex items-center gap-1">
-            <IconBadge size="sm" icon={BookOpen} />
-            <span>{chaptersLength} {chaptersLength === 1 ? "Bab" : "Bab"}</span>
-          </div>
-          <div className="flex items-center gap-1">
-            <Users className="w-4 h-4" />
-            <span>{purchasesLength} peserta</span> 
-          </div>
-        </div>
-        
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-1">
-            <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
-            <span className="text-sm font-medium">4.5</span>
-          </div>
-          <p className="text-lg font-bold text-sky-600 dark:text-sky-400">
-            {formatPrice(price)}
-          </p>
+
+        {/* Desktop Grid Layout (3 columns, all courses) */}
+        <h1 className="text-3xl font-bold text-gray-900 mb-6">Kelas Unggulan</h1>
+        <div className="hidden lg:grid grid-cols-3 gap-4">
+          {courses.map((course) => (
+            <Link href={`/overview/${course.id}`} key={course.id}>
+              <Card className="shadow-lg mx-auto relative">
+                <CardHeader className="flex flex-col items-center relative">
+                  <Image
+                    src={course.imageUrl || "/placeholder.svg"}
+                    alt={course.title}
+                    width={350}
+                    height={350}
+                    className="rounded-lg"
+                  />
+                  <CardTitle className="text-center mt-4 text-lg font-bold">
+                    {course.title}
+                  </CardTitle>
+                  <span className="absolute top-2 right-2 bg-sky-500 text-white px-2 py-1 rounded-full text-xs">
+                    {course.category?.name || "No Category"}
+                  </span>
+                </CardHeader>
+                <CardContent className="text-center text-gray-600">
+                  <div className="flex flex-col space-y-2">
+                    <div className="flex items-center space-x-1">
+                      <Star className="w-5 h-5 text-yellow-400 fill-yellow-400" />
+                      <span>
+                        {calculateAverageRating(course.reviews)}
+                        <span className="text-xs text-gray-500 ml-1">
+                          ({course.reviews.length} review
+                          {course.reviews.length !== 1 && "s"})
+                        </span>
+                      </span>
+                    </div>
+                    <div className="flex items-center space-x-1">
+                      <Users className="w-5 h-5" />
+                      <span>{course.purchases.length} peserta</span>
+                    </div>
+                    <div className="flex items-center space-x-1">
+                      <Tag className="w-5 h-5" />
+                      {course.price ? (
+                        <span>
+                          {course.discountPrice &&
+                          course.discountPrice < course.price ? (
+                            <>
+                              <span className="line-through text-red-500">
+                                {formatPrice(course.price)}
+                              </span>
+                              <span className="ml-2">
+                                {formatPrice(course.discountPrice)}
+                              </span>
+                            </>
+                          ) : (
+                            formatPrice(course.price)
+                          )}
+                        </span>
+                      ) : (
+                        <span>Gratis</span>
+                      )}
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </Link>
+          ))}
         </div>
       </div>
     </div>
-  </Link>
   );
-}
+};
+
+export default CourseCard;

@@ -58,7 +58,7 @@ const CourseLayout = async ({
     return redirect("/");
   }
 
-  // @ts-ignore
+  // @ts-expect-error
   const progressCount: number = await getProgress(userId, course.id);
 
   return (
