@@ -1,8 +1,26 @@
-// page.tsx
 import { db } from "@/lib/db";
 import AnalyticsDashboard from "./_components/analytics-dashboard";
+import { auth } from "@clerk/nextjs/server"
+import { redirect } from "next/navigation"
 
 const AnalyticsPage = async () => {
+  const { userId }: { userId: string | null } = await auth()
+
+  if (!userId) {
+    return redirect("/?error=unauthorized")
+  }
+
+  const admin_required = await db.profile.findFirst({
+    where: {
+      userId,
+      role: "ADMIN",
+    },
+  })
+
+  if (!admin_required) {
+    redirect("/?error=admin_required")
+  }
+
   const transactions = await db.purchase.findMany({
     include: {
       course: {

@@ -3,7 +3,7 @@
 import * as z from "zod";
 import axios from "axios";
 import { Button } from "@/components/ui/button";
-import { File, ImageIcon, Loader2, Pencil, PlusCircle, X } from "lucide-react";
+import { File, Loader2, PlusCircle, X } from "lucide-react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Attachment, Course } from "@prisma/client";
@@ -130,7 +130,7 @@ const AttachmentForm = ({
                     }}
                 />
                 <div className="text-xs text-muted-foreground mt-4">
-                    Add anything your student might need to complete
+                    Lampirkan E-Book atau file lainnya yang relevan dengan kursus ini.
                 </div>
             </div>
         )}

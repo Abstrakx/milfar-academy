@@ -15,8 +15,19 @@ interface OverviewPageProps {
 const OverviewPage = async ({ params }: OverviewPageProps) => {
   const { userId }: { userId: string | null } = await auth()
   
-  if (!userId) {;
-    return redirect("/");
+  if (!userId) {
+    return redirect("/?error=unauthorized")
+  }
+
+  const admin_required = await db.profile.findFirst({
+    where: {
+      userId,
+      role: "ADMIN",
+    },
+  })
+
+  if (!admin_required) {
+    redirect("/?error=admin_required")
   }
 
   const course = await db.course.findUnique({

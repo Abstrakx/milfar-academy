@@ -1,9 +1,28 @@
 import { db } from '@/lib/db';
+import { auth } from "@clerk/nextjs/server"
+import { redirect } from "next/navigation"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Users, Settings, Calendar } from 'lucide-react';
 import RecentUsersTable from './_components/users-tables';
 
 const AdminDashboard = async () => {
+  const { userId }: { userId: string | null } = await auth()
+
+  if (!userId) {
+    return redirect("/?error=unauthorized")
+  }
+
+  const admin_required = await db.profile.findFirst({
+    where: {
+      userId,
+      role: "ADMIN",
+    },
+  })
+
+  if (!admin_required) {
+    redirect("/?error=admin_required")
+  }
+  
   const recentUsers = await db.profile.findMany({
     orderBy: { role: 'asc' },
     select: {

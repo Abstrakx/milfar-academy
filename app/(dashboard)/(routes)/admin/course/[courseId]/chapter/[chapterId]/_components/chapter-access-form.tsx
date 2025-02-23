@@ -42,7 +42,7 @@ const ChapterAccessForm = ({ initialData, courseId, chapterId }: ChapterAccessFo
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       await axios.patch(`/api/courses/${courseId}/chapters/${chapterId}`, values);
-      toast.success("✨ Akses Chapter berhasil diperbarui");
+      toast.success("Akses Chapter berhasil diperbarui");
       toggleEdit();
       router.refresh();
     } catch (error: any) {
@@ -78,9 +78,9 @@ const ChapterAccessForm = ({ initialData, courseId, chapterId }: ChapterAccessFo
         )}>
      
           {initialData.isFree ? (
-            <>This chapter is available for free preview</>
+            <>Bab ini tersedia untuk preview gratis</>
           ) : (
-            <>This chapter is not free.</>
+            <>Bab ini tidak gratis.</>
           )}
         </p>
       )}
@@ -104,7 +104,7 @@ const ChapterAccessForm = ({ initialData, courseId, chapterId }: ChapterAccessFo
                   </FormControl>
                   <div className="space-y-1 leading-none">
                     <FormDescription>
-                        Check this box if you want to make this chapter free for preview.
+                      Centang kotak ini jika Anda ingin membuat bab ini gratis untuk preview.
                     </FormDescription>
                   </div>
                 </FormItem>

@@ -12,7 +12,18 @@ const ArticlePage = async ({
   const { userId }: { userId: string | null } = await auth()
 
   if (!userId) {
-    return redirect("/")
+    return redirect("/?error=unauthorized")
+  }
+
+  const admin_required = await db.profile.findFirst({
+    where: {
+      userId,
+      role: "ADMIN",
+    },
+  })
+
+  if (!admin_required) {
+    redirect("/?error=admin_required")
   }
 
   const article = await db.article.findUnique({

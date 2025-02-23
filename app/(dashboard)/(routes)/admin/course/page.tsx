@@ -9,20 +9,32 @@ import { IconBadge } from "@/components/icon-badge";
 import Link from "next/link";
 import Image from "next/image";
 
+  
 const CoursePage = async () => {
   const { userId }: { userId: string | null } = await auth()
 
   if (!userId) {
-    return redirect("/")
+    return redirect("/?error=unauthorized")
+  }
+
+  const admin_required = await db.profile.findFirst({
+    where: {
+      userId,
+      role: "ADMIN",
+    },
+  })
+
+  if (!admin_required) {
+    redirect("/?error=admin_required")
   }
 
   const courses = await db.course.findMany({
-    where: {
-      userId,
-    },
     include: {
       chapters: true,
     },
+    orderBy: {
+      isPublished: "desc",
+    }
   });
 
   return (

@@ -4,19 +4,25 @@ import Hero from "./_components/hero";
 import HeroContent from "./_components/hero-content";
 import HeroCard from "./_components/hero-card";
 import ArticleCard from "./_components/article-card";
-import { auth, currentUser } from "@clerk/nextjs/server";
+import { currentUser } from "@clerk/nextjs/server";
+import { AuthModal } from "@/components/modals/auth-modal";
 
-export default async function Home() {
+export default async function Home({
+    searchParams,
+  }: {
+    searchParams: { [key: string]: string | string[] | undefined }
+  }) {
+
   const user = await currentUser();
 
   if (user) {
     try {
-      let userProfile = await db.profile.findFirst({
+      const existingProfile = await db.profile.findFirst({
         where: { userId: user.id },
       });
 
-      if (!userProfile) {
-        userProfile = await db.profile.create({
+      if (!existingProfile) {
+        await db.profile.create({
           data: {
             userId: user.id,
             name: user.fullName || "Anonymous User",
@@ -44,17 +50,19 @@ export default async function Home() {
   const articles = await db.article.findMany({
     where: { isPublished: true },
     take: 6,
-  })
+  });
 
   return (
     <div>
+      <AuthModal error={searchParams.error} />
+      
       <Hero />
       <HeroCard />
       <div className="container mx-auto p-4">
         <CourseCard courses={courses} />
         <HeroContent />
       </div>
-      <ArticleCard articles={articles}/>
+      <ArticleCard articles={articles} />
     </div>
   );
 }

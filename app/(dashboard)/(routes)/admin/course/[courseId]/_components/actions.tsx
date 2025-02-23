@@ -29,10 +29,10 @@ const Actions = ({
 
         if (isPublished) {
             await axios.patch(`/api/courses/${courseId}/unpublish`);
-            toast.success("Course unpublished");
+            toast.success("❌ Kursus tidak dipublikasikan");
         } else {
             await axios.patch(`/api/courses/${courseId}/publish`);
-            toast.success("Course published");
+            toast.success("✨ Kursus dipublikasikan");
         }
         router.refresh();
         setIsLoading(false);

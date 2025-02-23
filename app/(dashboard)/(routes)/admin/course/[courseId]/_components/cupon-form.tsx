@@ -44,10 +44,10 @@ const CouponManagement = ({ courseId, initialData }: CouponManagementProps) => {
     try {
       const response = await axios.post(`/api/courses/${courseId}/coupons`, values);
       setCoupons((prev) => [...prev, response.data]);
-      toast.success("Coupon created successfully!");
+      toast.success("Kupon kursus berhasil dibuat!");
       setIsAddingNew(false);
     } catch {
-      toast.error("Failed to create coupon");
+      toast.error("Gagal untuk membuat kupon");
     }
   };
 
@@ -58,11 +58,11 @@ const CouponManagement = ({ courseId, initialData }: CouponManagementProps) => {
       setCoupons((prev) =>
         prev.map((coupon) => (coupon.id === id ? response.data : coupon))
       );
-      toast.success("Coupon updated successfully!");
+      toast.success("Kupon berhasil diperbaharui!");
       setIsAddingNew(false);
       setEditingId(null);
     } catch {
-      toast.error("Failed to update coupon");
+      toast.error("Gagal untuk memperbaharui kupon");
     }
   };
 
@@ -70,9 +70,9 @@ const CouponManagement = ({ courseId, initialData }: CouponManagementProps) => {
     try {
       await axios.delete(`/api/courses/${courseId}/coupons`, { data: { id } });
       setCoupons((prev) => prev.filter((coupon) => coupon.id !== id));
-      toast.success("Coupon deleted successfully!");
+      toast.success("Kupon berhasil dihapus!");
     } catch {
-      toast.error("Failed to delete coupon");
+      toast.error("Gagal untuk menghapus kupon");
     }
   };
 

@@ -84,7 +84,7 @@ const CategoryForm = ({
         });
       }
 
-      toast.success("✨ Kategori kursus berhasil diperbarui");
+      toast.success("Kategori kursus berhasil diperbarui!");
       toggleEdit();
       router.refresh();
     } catch (error: any) {

@@ -31,10 +31,10 @@ const ChapterActions = ({
 
         if (isPublished) {
             await axios.patch(`/api/courses/${courseId}/chapters/${chapterId}/unpublish`);
-            toast.success("Chapter unpublished");
+            toast.success("❌ Chapter tidak dipublikasikan");
         } else {
             await axios.patch(`/api/courses/${courseId}/chapters/${chapterId}/publish`);
-            toast.success("Chapter published");
+            toast.success("✨ Chapter dipublikasikan");
         }
         router.refresh();
         setIsLoading(false);
@@ -55,7 +55,7 @@ const ChapterActions = ({
     try {
         setIsLoading(true);
         await axios.delete(`/api/courses/${courseId}/chapters/${chapterId}`);
-        toast.success("Chapter deleted");
+        toast.success("Chapter berhasil dihapus");
         router.push(`/admin/course/${courseId}`);
         router.refresh();
     } catch (error: any) {
