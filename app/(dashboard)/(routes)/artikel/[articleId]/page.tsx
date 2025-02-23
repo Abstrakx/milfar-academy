@@ -1,5 +1,4 @@
 import { CalendarDays, Clock } from "lucide-react";
-import { auth } from "@clerk/nextjs/server"
 import Image from "next/image";
 import PreviewArticle from "./_components/preview-article"; 
 import { db } from "@/lib/db";
@@ -9,22 +8,6 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 const ArticlePage = async ({ 
   params
 }:{ params: {articleId: string} }) => {
-  const { userId }: { userId: string | null } = await auth()
-
-  if (!userId) {
-    return redirect("/?error=unauthorized")
-  }
-
-  const admin_required = await db.profile.findFirst({
-    where: {
-      userId,
-      role: "ADMIN",
-    },
-  })
-
-  if (!admin_required) {
-    redirect("/?error=admin_required")
-  }
 
   const article = await db.article.findUnique({
     where: {
@@ -38,7 +21,7 @@ const ArticlePage = async ({
 
   const profile = await db.profile.findUnique({
     where: {
-      userId: userId,
+      userId: article.userId,
     }
   });
 

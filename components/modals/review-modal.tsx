@@ -27,7 +27,7 @@ export const ReviewModal = ({ courseId, isOpen, onClose }: ReviewModalProps) => 
         rating,
         comment
       });
-      toast.success("Review submitted!");
+      toast.success("Review berhasil disubmit!");
       onClose();
     } catch (error) {
       if (axios.isAxiosError(error)) {

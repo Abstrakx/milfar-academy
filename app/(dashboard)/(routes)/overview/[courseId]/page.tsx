@@ -19,16 +19,11 @@ const OverviewPage = async ({ params }: OverviewPageProps) => {
     return redirect("/?error=unauthorized")
   }
 
-  const admin_required = await db.profile.findFirst({
+  const profile = await db.profile.findFirst({
     where: {
-      userId,
-      role: "ADMIN",
+      userId: userId,
     },
   })
-
-  if (!admin_required) {
-    redirect("/?error=admin_required")
-  }
 
   const course = await db.course.findUnique({
     where: {
@@ -85,7 +80,7 @@ const OverviewPage = async ({ params }: OverviewPageProps) => {
                 isLocked={false}
               />
             ) : (
-              <p className="p-4 text-center">No free chapter available.</p>
+              <p className="p-4 text-center">Tidak tersedia preview chapter.</p>
             )}
           </div>
         </div>
@@ -98,7 +93,7 @@ const OverviewPage = async ({ params }: OverviewPageProps) => {
             Daftar Materi Pembelajaran
           </h2>
 
-          <ClientPurchase course={course} chapters={course.chapters} purchase={purchase} title={course.title} price={course.price || 0} />
+          <ClientPurchase profile={profile} course={course} chapters={course.chapters} purchase={purchase} title={course.title} price={course.price || 0} />
         </div>
       </div>
 

@@ -6,16 +6,16 @@ import { CheckCircle, Lock } from "lucide-react";
 import { formatPrice } from "@/lib/format";
 import Link from "next/link";
 
-const whatsappNumber = "6281234567890"; 
+const whatsappNumber = "6283134083929"; 
 
-const ClientPurchase = ({ course, chapters, purchase, title, price }: { course: any, chapters: any[], purchase: any, title: string, price: number }) => {
+const ClientPurchase = ({ profile, course, chapters, purchase, title, price }: { profile: any, course: any, chapters: any[], purchase: any, title: string, price: number }) => {
   const handlePurchase = () => {
-    const message = encodeURIComponent("Halo, saya ingin membeli kursus Pengembangan Aplikasi Web Modern.");
+    const message = encodeURIComponent(`Halo, saya ${profile.name} ingin membeli kursus ${course.title} dengan id ${profile.id}.`);
     window.open(`https://wa.me/${whatsappNumber}?text=${message}`, "_blank");
   };
 
   const handleContactAdmin = () => {
-    const message = encodeURIComponent("Halo, saya ingin bertanya mengenai kursus Pengembangan Aplikasi Web Modern.");
+    const message = encodeURIComponent(`Halo, saya ${profile.name} ingin bertanya mengenai kursus ${course.title}.`);
     window.open(`https://wa.me/${whatsappNumber}?text=${message}`, "_blank");
   };
 

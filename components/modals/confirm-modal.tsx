@@ -19,18 +19,18 @@ const ConfirmModal = ({
         <AlertDialogContent>
             <AlertDialogHeader>
                 <AlertDialogTitle>
-                    Are you sure?
+                    Apakah anda yakin?
                 </AlertDialogTitle>
             </AlertDialogHeader>
             <AlertDialogDescription>
-                This action cannot be undone.
+                Tindakan ini tidak dapat dibatalkan.
             </AlertDialogDescription>
             <AlertDialogFooter>
                 <AlertDialogCancel>
-                    Cancel
+                    Batalkan
                 </AlertDialogCancel>
                 <AlertDialogAction onClick={onConfirm}>
-                    Confirm
+                    Konfirmasi
                 </AlertDialogAction>
             </AlertDialogFooter>
         </AlertDialogContent>

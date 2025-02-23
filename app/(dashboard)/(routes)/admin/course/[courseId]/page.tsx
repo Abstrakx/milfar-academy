@@ -44,7 +44,6 @@ const CourseIdPage = async ({
   const course = await db.course.findUnique({
     where: { 
       id: params.courseId,
-      userId
     },
     include: {
       chapters: {
@@ -73,7 +72,7 @@ const CourseIdPage = async ({
   });
 
   if (!course) {
-    return redirect("/")
+    return redirect("/admin/course")
   }
 
   const requiredFields = [

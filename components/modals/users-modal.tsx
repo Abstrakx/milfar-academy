@@ -39,7 +39,7 @@ const EditUserModal: React.FC<EditUserModalProps> = ({ user, onClose }) => {
 
     try {
         await axios.patch(`/api/profile`, payload);
-        toast.success("Profile User Update")
+        toast.success("Profile user diperbarui!")
         onClose();
         router.refresh();
       } catch (error) {
