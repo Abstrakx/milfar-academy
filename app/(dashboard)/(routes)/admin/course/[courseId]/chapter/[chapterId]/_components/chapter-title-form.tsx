@@ -58,95 +58,60 @@ const ChapterTitleForm = ({ initialData, courseId, chapterId }: ChapterTitleForm
   };
 
   return (
-    <Card className="bg-white mt-6">
-      <CardContent className="p-0">
-        <div className="relative">
-          {/* Header Section */}
-          <div className="flex items-center justify-between p-6 bg-gradient-to-r from-blue-50 to-indigo-50">
-            <div className="space-y-1">
-              <div className="flex items-center gap-2">
-                <h3 className="text-xl font-semibold text-gray-800">Judul Chapter</h3>
-                <Badge className="text-blue-700">
-                  Required
-                </Badge>
-              </div>
-              <p className="text-sm text-gray-500">Ini akan ditampilkan sebagai judul Chapter kursus Anda.</p>
-            </div>
-            
-            {!isEditing && (
-              <Button
-                onClick={() => setIsEditing(true)}
-                variant="outline"
-                className="hover:bg-blue-50"
-              >
-                <Pencil className="w-4 h-4 mr-2" />
-                Edit Title
-              </Button>
-            )}
-          </div>
-
-          {/* Content Section */}
-          <div className="p-6">
-            {!isEditing ? (
-              <div className="group relative">
-                <div className="flex items-center gap-3">
-                  <ChevronRight className="w-4 h-4 text-gray-400" />
-                  <p className="text-lg text-gray-700 font-medium">
-                    {initialData.title || "No chapter title set"}
-                  </p>
-                </div>
-              </div>
-            ) : (
-              <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                  <FormField
-                    control={form.control}
-                    name="title"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                          <Input
-                            {...field}
-                            disabled={isSubmitting}
-                            placeholder="Contoh: Perkenalan"
-                            className="h-12 text-lg font-medium px-4 border-gray-200 rounded-lg 
-                                     focus:ring-2 focus:ring-blue-500 focus:border-blue-500
-                                     placeholder:text-gray-400"
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  
-                  <div className="flex items-center gap-3 pt-2">
-                    <Button
-                      type="submit"
+    <div className="mt-6 bg-slate-100 rounded-md p-4 dark:bg-gray-800">
+      <div className="font-medium flex items-center justify-between">
+        Judul Chapter
+        <Button onClick={toggleEdit} variant="ghost">
+          {isEditing ? (
+            <>Kembali</>
+          ) : (
+            <>
+              <Pencil className="h-4 w-4 mr-2" />
+              Edit Judul
+            </>
+          )}
+        </Button>
+      </div>
+      {!isEditing && (
+        <p className="text-sm mt-2 dark:text-gray-300">
+          {initialData?.title}
+        </p>
+      )}
+      {isEditing && (
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="space-y-4 mt-4 dark:text-gray-300"
+          >
+            <FormField
+              control={form.control}
+              name="title"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Input
                       disabled={isSubmitting}
-                      className="bg-blue-600 hover:bg-blue-700 text-white"
-                    >
-                      <Save className="w-4 h-4 mr-2" />
-                      {isSubmitting ? "Menyimpan..." : "Simpan"}
-                    </Button>
-                    
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      onClick={() => setIsEditing(false)}
-                      className="text-gray-600 hover:text-gray-800"
-                    >
-                      <X className="w-4 h-4 mr-2" />
-                      Batalkan
-                    </Button>
-                  </div>
-                </form>
-              </Form>
-            )}
-          </div>
-        </div>
-      </CardContent>
-    </Card>
-  );
+                      placeholder="Contoh: 'Menanam Sawi Hidroponik'"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <div className="flex items-center gap-x-2">
+              <Button
+                disabled={!isValid || isSubmitting}
+                type="submit"
+              >
+                Simpan
+              </Button>
+            </div>
+          </form>
+        </Form>
+      )}
+    </div>
+  )
 };
 
 export default ChapterTitleForm;

@@ -83,7 +83,7 @@ const ChapterIdPage = async ({
           {!chapter.isPublished && (
             <Banner 
               variant="warning"
-              label="This chapter is unpublished. It will not be visible in the course"
+              label="Chapter ini belum dipublikasikan dan tidak akan terlihat di daftar kursus."
             />
           )}
 

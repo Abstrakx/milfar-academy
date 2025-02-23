@@ -57,7 +57,7 @@ const ChapterVideoForm = ({
             {!isEditing && !initialData.videoUrl && (
               <>
                 <PlusCircle className="h-4 w-4 mr-2" />
-                Add a video
+                Tambahkan video
               </>
             )}
             {!isEditing && initialData.videoUrl && (
@@ -113,19 +113,19 @@ const ChapterVideoForm = ({
               <Input
                 name="videoUrl"
                 defaultValue={initialData.videoUrl || ""}
-                placeholder="Paste YouTube URL here"
+                placeholder="Paste YouTube URL disini"
                 className="mb-4"
               />
-              <Button type="submit">Save Video</Button>
+              <Button type="submit">Simpan Video</Button>
             </form>
             <div className="text-xs text-muted-foreground mt-4">
-              Add a YouTube video URL for this chapter.
+              Tambahkan Youtube video URL untuk chapter ini.
             </div>
           </div>
         )}
         {initialData.videoUrl && !isEditing && (
           <div className="text-xs text-muted-foreground mt-2">
-            Refresh the page if the video does not appear.
+            Refresh page jika video tidak muncul.
           </div>
         )}
       </div>

@@ -39,7 +39,7 @@ export const CourseProgressButton = ({
       }
 
       if (!isCompleted && nextChapterId) {
-        router.push(`/kelas/${courseId}/chapters/${nextChapterId}`);
+        router.push(`/kelas/${courseId}/chapter/${nextChapterId}`);
       }
 
       toast.success("Progress updated");

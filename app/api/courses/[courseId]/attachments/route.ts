@@ -15,17 +15,6 @@ export async function POST(
             return new NextResponse("Unauthorized", { status: 401 });
         }
 
-        const courseOwner = await db.course.findUnique({
-            where: {
-                id: params.courseId,
-                userId: userId,
-            }
-        })
-
-        if (!courseOwner) {
-            return new NextResponse("Unauthorized", { status: 401 });
-        }
-
         const attachment = await db.attachment.create({
             data: {
                 url,

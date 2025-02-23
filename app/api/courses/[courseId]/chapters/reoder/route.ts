@@ -14,17 +14,6 @@ export async function PUT (
             return new NextResponse("Unauthorized", { status: 401 });
         }
 
-        const courseOwner = await db.course.findUnique({
-            where: {
-                id: params.courseId,
-                userId: userId,
-            }
-        })
-
-        if (!courseOwner) {
-            return new NextResponse("Unauthorized", { status: 401 });
-        }
-
         for (const item of list) {
             await db.chapter.update({
                 where: {

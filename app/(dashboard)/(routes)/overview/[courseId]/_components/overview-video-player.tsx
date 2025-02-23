@@ -47,12 +47,10 @@ export const OverviewVideoPlayer = ({
           }}
           options={{
             autoplay: true,
-            youtube: { 
-              modestbranding: 1,
-              rel: 0,
-              showinfo: 0,  
-              iv_load_policy: 3,
-              cc_load_policy: 1,
+            youtube: {
+              modestbranding: 1, 
+              rel: 1,
+              showinfo: 0, 
               vq: "hd1080",
             },
           }}

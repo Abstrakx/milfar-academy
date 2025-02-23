@@ -103,7 +103,7 @@ const KelasPage = async ({
 
                 return (
                 <Link 
-                    href={`/course/${course.id}/chapter/${chapter.id}`} 
+                    href={`/kelas/${course.id}/chapter/${chapter.id}`} 
                     key={chapter.id}
                 >
                     <li

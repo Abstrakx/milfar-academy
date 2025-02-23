@@ -115,7 +115,7 @@ const ChapterAccessForm = ({ initialData, courseId, chapterId }: ChapterAccessFo
                 disabled={!isValid || isSubmitting}
                 type="submit"
               >
-                Save
+                Simpan
               </Button>
             </div>
           </form>
