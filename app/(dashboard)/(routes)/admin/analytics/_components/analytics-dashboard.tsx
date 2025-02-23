@@ -17,7 +17,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { DollarSign, BookOpen, TrendingUp } from "lucide-react";
+import { DollarSign, BookOpen, TrendingUp, Trash2 } from "lucide-react";
 import { formatPrice } from "@/lib/format";
 import axios from "axios";
 import toast from "react-hot-toast";
@@ -123,6 +123,22 @@ const AnalyticsDashboard = ({
           toast.error("No response received from the server");
       } else {
           toast.error(`Error: ${error.message}`);
+      }
+    }
+  };
+
+  const handleDeleteTransaction = async (id: string) => {
+    try {
+      await axios.delete(`/api/purchases/${id}`);
+      toast.success("Transaksi berhasil dihapus!");
+      router.refresh(); 
+    } catch (error: any) {
+      if (error.response) {
+        toast.error(`Server responded with ${error.response.status} error`);
+      } else if (error.request) {
+        toast.error("No response received from the server");
+      } else {
+        toast.error(`Error: ${error.message}`);
       }
     }
   };
@@ -338,6 +354,7 @@ const AnalyticsDashboard = ({
                 <TableHead>Tipe Pembayaran</TableHead>
                 <TableHead>Kode Kupon</TableHead>
                 <TableHead>Total Pembayaran</TableHead>
+                <TableHead>Aksi</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -352,6 +369,15 @@ const AnalyticsDashboard = ({
                   <TableCell>{tx.coupon?.name || "-"}</TableCell>
                   <TableCell>
                     {formatPrice(tx.transactionPrice || 0)}
+                  </TableCell>
+                  <TableCell>
+                    <Button
+                      variant="destructive"
+                      size="icon"
+                      onClick={() => handleDeleteTransaction(tx.id)}
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </Button>
                   </TableCell>
                 </TableRow>
               ))}
