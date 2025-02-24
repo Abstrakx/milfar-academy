@@ -9,7 +9,7 @@ const categories = [
   { id: "81203115-f10c-41fd-91a5-2dbf98402fc8", label: "Tanaman Pangan", image: "/kelas/tanaman-pangan.png" },
   { id: "7648008b-0000-40d5-a5b9-54246d6c2b6c", label: "Holtikultura Sayur dan Buah", image: "/kelas/holtikultura-sayur-dan-buah.png" },
   { id: "a2f9532c-59e3-4ad1-93a8-997ea815c802", label: "Hidroponik", image: "/kelas/hidroponik.png" },
-  { id: "0933b5c2-cd40-495d-ac06-6788901c2d28", label: "Mikro Green", image: "/kelas/hidroponik.png" },
+  { id: "0933b5c2-cd40-495d-ac06-6788901c2d28", label: "Mikro Green", image: "/kelas/microgreen.svg" },
 ];
 
 export default function KategoriKelasWrapper() {

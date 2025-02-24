@@ -49,9 +49,9 @@ export const OverviewVideoPlayer = ({
             autoplay: true,
             youtube: {
               modestbranding: 1, 
-              rel: 1,
+              rel: 0,
               showinfo: 0, 
-              vq: "hd1080",
+              vq: "hd720",
             },
           }}
         />

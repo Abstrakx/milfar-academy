@@ -42,7 +42,7 @@ export const CourseProgressButton = ({
         router.push(`/kelas/${courseId}/chapter/${nextChapterId}`);
       }
 
-      toast.success("Progress updated");
+      toast.success("Progress pembelajaran diperbarui!");
       router.refresh();
     } catch {
       toast.error("Something went wrong");

@@ -27,7 +27,7 @@ export default async function KelasCard({ searchParams }: KelasCardProps) {
   if (courses.length === 0) {
     return (
       <div className="p-16 text-center text-lg font-bold text-gray-700">
-        Tidak ada materi yang cocok dengan pencarian Anda. Coba dengan kata kunci lain!
+        Materi akan segera hadir! Coba cek kategori lainnya.
       </div>
     );
   }

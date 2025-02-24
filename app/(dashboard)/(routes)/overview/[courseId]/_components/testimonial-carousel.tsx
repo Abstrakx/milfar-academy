@@ -6,7 +6,7 @@ import Autoplay from "embla-carousel-autoplay";
 import useEmblaCarousel from "embla-carousel-react";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
 import { useEffect, useState } from "react";
-import { Star } from "lucide-react";
+import { Star, MessageSquareQuote } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 interface TestimonialOverview {
@@ -21,6 +21,25 @@ interface TestimonialOverview {
 interface TestimonialOverviewProps {
     testimonials: TestimonialOverview[];
 }
+
+const EmptyState = () => (
+  <Card className="p-8 flex flex-col items-center justify-center text-center space-y-4">
+    <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center">
+      <MessageSquareQuote className="w-8 h-8 text-primary" />
+    </div>
+    <div className="space-y-2">
+      <h3 className="text-xl font-semibold text-gray-800">Belum Ada Review</h3>
+      <p className="text-gray-600 max-w-md">
+        Jadilah yang pertama memberikan review dan bantu peserta lain mendapatkan wawasan berharga dari pengalaman Anda! ✨
+      </p>
+    </div>
+    <div className="flex items-center space-x-1 text-yellow-500">
+      {[...Array(5)].map((_, i) => (
+        <Star key={i} className="w-6 h-6" />
+      ))}
+    </div>
+  </Card>
+);
 
 const TestimonialOverview = ({ testimonials }: TestimonialOverviewProps) => {
   const [emblaRef, emblaApi] = useEmblaCarousel(
@@ -38,6 +57,14 @@ const TestimonialOverview = ({ testimonials }: TestimonialOverviewProps) => {
     });
   }, [emblaApi]);
 
+  if (!testimonials || testimonials.length === 0) {
+    return (
+      <div className="px-4 md:px-16 py-8">
+        <EmptyState />
+      </div>
+    );
+  }
+
   return (
     <div className="relative px-4 md:px-16">
       <Carousel
@@ -53,7 +80,6 @@ const TestimonialOverview = ({ testimonials }: TestimonialOverviewProps) => {
               className="pl-2 basis-full md:basis-1 lg:basis-1/3"
             >
               <Card className="p-4 md:p-6 h-full transition-transform duration-300 hover:scale-[1.02] hover:shadow-lg">
-                {/* Use a column layout on mobile and a row layout on larger screens */}
                 <div className="flex flex-row items-start">
                   <Avatar className="w-14 h-14 mr-4">
                     <AvatarImage
@@ -97,7 +123,6 @@ const TestimonialOverview = ({ testimonials }: TestimonialOverviewProps) => {
           ))}
         </CarouselContent>
 
-        {/* Navigation Arrows for larger screens */}
         <CarouselPrevious className="hidden md:flex absolute left-4 -translate-y-1/2 top-1/2 bg-background hover:bg-gray-50" />
         <CarouselNext className="hidden md:flex absolute right-4 -translate-y-1/2 top-1/2 bg-background hover:bg-gray-50" />
       </Carousel>

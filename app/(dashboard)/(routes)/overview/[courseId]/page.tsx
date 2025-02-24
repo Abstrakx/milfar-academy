@@ -103,7 +103,7 @@ const OverviewPage = async ({ params }: OverviewPageProps) => {
           <h2 className="text-3xl font-semibold text-gray-900 mb-4 text-left">
             Tentang Kelas
           </h2>
-          <p className="text-gray-600 text-lg text-left">
+          <p className="text-gray-600 text-lg text-left pl-4">
             {course.description}
           </p>
         </div>

@@ -48,21 +48,24 @@ const CourseCard = ({ courses }: CourseCardProps) => {
           <div className="flex space-x-4">
             {courses.map((course) => (
               <Link href={`/overview/${course.id}`} key={course.id} className="min-w-[100%] sm:min-w-[50%] lg:min-w-[33.33%]">
-                <Card className="shadow-lg mx-auto relative">
-                  <CardHeader className="flex flex-col items-center relative">
-                    <Image
-                      src={course.imageUrl || "/placeholder.svg"}
-                      alt={course.title}
-                      width={350}
-                      height={350}
-                      className="rounded-lg"
-                    />
-                    <CardTitle className="text-center mt-4 text-lg font-bold">{course.title}</CardTitle>
-                    <span className="absolute top-2 right-2 bg-sky-500 text-white px-2 py-1 rounded-full text-xs">
-                      {course.category?.name || 'No Category'}
-                    </span>
+                <Card className="h-[450px] shadow-lg mx-auto">
+                  <CardHeader className="p-0">
+                    <div className="relative w-full pt-[56.25%]">
+                      <Image
+                        src={course.imageUrl || "/placeholder.svg"}
+                        alt={course.title}
+                        fill
+                        className="object-cover rounded-t-lg"
+                      />
+                      <span className="absolute top-2 right-2 bg-sky-500 text-white px-2 py-1 rounded-full text-xs">
+                        {course.category?.name || 'No Category'}
+                      </span>
+                    </div>
+                    <div className="p-4">
+                      <CardTitle className="text-lg font-bold line-clamp-2">{course.title}</CardTitle>
+                    </div>
                   </CardHeader>
-                  <CardContent className="text-center text-gray-600">
+                  <CardContent className="text-gray-600">
                     <div className="flex flex-col space-y-2">
                       <div className="flex items-center space-x-1">
                         <Star className="w-5 h-5 text-yellow-400 fill-yellow-400" />
