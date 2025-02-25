@@ -80,6 +80,7 @@ const KelasPage = async ({
             <CourseProgressButton
                 chapterId={params.chapterId}
                 courseId={params.courseId}
+                courseName={course.title}
                 nextChapterId={nextChapter?.id}
                 isCompleted={!!userProgress?.isCompleted}
             />

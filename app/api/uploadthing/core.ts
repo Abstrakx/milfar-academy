@@ -15,7 +15,7 @@ const handleAuth = async () => {
  
 // FileRouter for your app, can contain multiple FileRoutes
 export const ourFileRouter = {
-    courseImage: f({ image: { maxFileSize: "1MB", maxFileCount: 1 } })
+    courseImage: f({ image: { maxFileSize: "2MB", maxFileCount: 1 } })
         .middleware(() => handleAuth())
         .onUploadComplete(() => {}),
     courseAttachment: f(["text", "image", "video", "audio", "pdf"])

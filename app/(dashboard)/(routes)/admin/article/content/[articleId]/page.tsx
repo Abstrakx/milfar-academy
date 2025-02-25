@@ -10,7 +10,7 @@ import Banner from "@/components/banner"
 
 import ArticleActions from "./_components/actions_article"
 import ArticleTitleForm from "./_components/title-form_article"
-import ArticleImageForm from "./_components/image-form_article"
+import MediaSelectorForm from "./_components/media-selector_artilce"
 import ArticleContentForm from "./_components/content-form_article"
 import ArticleDescriptionForm from "./_components/description-form_article"
 
@@ -113,7 +113,7 @@ const ArticleIdPage = async ({
                     initialData={article}
                     articleId={article.id}
                   />
-                  <ArticleImageForm
+                  <MediaSelectorForm
                     initialData={article}
                     articleId={article.id}
                   />

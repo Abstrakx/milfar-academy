@@ -1,7 +1,7 @@
 import { db } from "@/lib/db"
 import { auth } from "@clerk/nextjs/server"
 import { redirect } from "next/navigation"
-import { CircleDollarSign, File, LayoutDashboard, ListCheck, ArrowLeft } from 'lucide-react'
+import { CircleDollarSign, File, LayoutDashboard, ListCheck, ArrowLeft, MessageCircle } from 'lucide-react'
 import { IconBadge } from "@/components/icon-badge"
 import { Progress } from "@/components/ui/progress"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -18,6 +18,7 @@ import Actions from "./_components/actions"
 import CategoryForm from "./_components/category-form"
 import DiscountForm from "./_components/discount-form"
 import CouponManagement from "./_components/cupon-form"
+import WhatsappGroupForm from "./_components/whatsapp-form"
 
 const CourseIdPage = async ({
   params
@@ -206,6 +207,23 @@ const CourseIdPage = async ({
                   />
                   <CouponManagement
                     initialData={coupons}
+                    courseId={course.id}
+                  />
+                  <WhatsappGroupForm 
+                    initialData={course}
+                    courseId={course.id}
+                  />
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader className="flex flex-row items-center gap-x-2 space-y-0 pb-2">
+                  <IconBadge icon={MessageCircle} />
+                  <CardTitle>Grup Diskusi Kursus</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <WhatsappGroupForm 
+                    initialData={course}
                     courseId={course.id}
                   />
                 </CardContent>

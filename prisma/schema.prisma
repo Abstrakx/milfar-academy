@@ -43,6 +43,7 @@ model Course {
   imageUrl String? @db.Text
   price Float?
   isPublished Boolean @default(false)
+  whatsappGroup String?
 
   hasDiscount Boolean @default(false) 
   discountPrice Float? 
@@ -69,6 +70,7 @@ model Article {
   description String? @db.Text
   content String? @db.Text
   imageUrl String? @db.Text
+  videoUrl String? @db.Text
   isPublished Boolean @default(false)
 
   createdAt DateTime @default(now())

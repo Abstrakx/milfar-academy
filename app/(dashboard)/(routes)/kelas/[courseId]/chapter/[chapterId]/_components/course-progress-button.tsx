@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 interface CourseProgressButtonProps {
   chapterId: string;
   courseId: string;
+  courseName: string;
   isCompleted?: boolean;
   nextChapterId?: string;
 };
@@ -19,6 +20,7 @@ interface CourseProgressButtonProps {
 export const CourseProgressButton = ({
   chapterId,
   courseId,
+  courseName,
   isCompleted,
   nextChapterId
 }: CourseProgressButtonProps) => {
@@ -69,6 +71,7 @@ export const CourseProgressButton = ({
       <ReviewModal
         courseId={courseId}
         isOpen={isReviewModalOpen}
+        courseName={courseName}
         onClose={() => setIsReviewModalOpen(false)}
       />
     </>

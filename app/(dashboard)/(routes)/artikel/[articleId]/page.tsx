@@ -4,6 +4,8 @@ import PreviewArticle from "./_components/preview-article";
 import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { ArticleVideoPlayer } from "./_components/video-player-article";
+import { getYoutubeVideoId } from "@/lib/youtube";
 
 const ArticlePage = async ({ 
   params
@@ -25,8 +27,10 @@ const ArticlePage = async ({
     }
   });
 
+  const videoId = article.videoUrl ? getYoutubeVideoId(article.videoUrl) : null;
+
   return (
-    <div className="max-w-4xl mx-auto mt-20">
+    <div className="max-w-4xl mx-auto mt-20 px-4 sm:px-6 md:px-8">
       {/* Article Header */}
       <div className="space-y-4 mb-8">
         <h1 className="text-3xl font-bold tracking-tight">{article.title}</h1>
@@ -47,8 +51,14 @@ const ArticlePage = async ({
         </div>
       </div>
 
-      {/* Featured Image */}
-      {article.imageUrl && (
+      {/* Featured Image or Video */}
+      {article.videoUrl ? (
+        <div className="relative aspect-video mb-8 overflow-hidden rounded-lg">
+          <ArticleVideoPlayer 
+            playbackId={videoId}
+          />
+        </div>
+      ) : article.imageUrl ? (
         <div className="relative aspect-video mb-8 overflow-hidden rounded-lg">
           <Image
             src={article.imageUrl}
@@ -58,7 +68,7 @@ const ArticlePage = async ({
             priority
           />
         </div>
-      )}
+      ) : null}
 
     <div className="flex items-center gap-4 mt-8 bg-gray-300 p-6 rounded-lg">
       <Avatar>

@@ -20,7 +20,7 @@ const FooterUser = () => {
           <Link href="https://instagram.com" target="_blank" rel="noopener noreferrer">
             <Image width={30} height={30} src="/instagram.png" alt="Instagram" />
           </Link>
-          <Link href="https://facebook.com" target="_blank" rel="noopener noreferrer">
+          <Link href="https://www.facebook.com/share/1A4bMYeeMJ/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer">
             <Image width={19} height={30} src="/facebook.png" alt="Facebook" />
           </Link>
           <Link href="https://tiktok.com" target="_blank" rel="noopener noreferrer">
@@ -37,29 +37,24 @@ const FooterUser = () => {
         <h3 className="text-xl font-semibold">Produk</h3>
         <ul className="space-y-3">
           <li>
-            <a href="#produk1" className="hover:text-gray-300">
-              Kelas Holtikultura
-            </a>
-          </li>
-          <li>
-            <a href="#produk2" className="hover:text-gray-300">
+            <Link href="/kelas?category=81203115-f10c-41fd-91a5-2dbf98402fc8" className="hover:text-gray-300">
               Kelas Tanaman Pangan
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="#produk3" className="hover:text-gray-300">
+            <Link href="/kelas?category=7648008b-0000-40d5-a5b9-54246d6c2b6c" className="hover:text-gray-300">
+              Kelas Holtikultura
+            </Link>
+          </li>
+          <li>
+            <Link href="/kelas?category=a2f9532c-59e3-4ad1-93a8-997ea815c802" className="hover:text-gray-300">
               Kelas Hidroponik
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="#produk4" className="hover:text-gray-300">
-              Nutrisi Tanaman
-            </a>
-          </li>
-          <li>
-            <a href="#produk5" className="hover:text-gray-300">
-              Media Tanam
-            </a>
+            <Link href="/kelas?category=0933b5c2-cd40-495d-ac06-6788901c2d28" className="hover:text-gray-300">
+              Micro Green
+            </Link>
           </li>
         </ul>
       </div>
@@ -69,14 +64,14 @@ const FooterUser = () => {
         <h3 className="text-xl font-semibold">Dukungan</h3>
         <ul className="space-y-3">
           <li>
-            <a href="#bantuan" className="hover:text-gray-300">
+            <Link href="#bantuan" className="hover:text-gray-300">
               Kontak Kami
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="#kontak" className="hover:text-gray-300">
+            <Link href="#kontak" className="hover:text-gray-300">
               FAQ
-            </a>
+            </Link>
           </li>
         </ul>
       </div>

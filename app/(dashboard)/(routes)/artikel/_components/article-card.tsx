@@ -21,7 +21,7 @@ const truncate = (text: string, maxLength: number) => {
 const ArticleCard = ({ article }: ArticleCardProps) => {
   return (
     <Link href={`/artikel/${article.id}`} className="block group">
-      <div className="bg-white rounded-lg shadow-md overflow-hidden transform transition duration-300 group-hover:scale-105">
+      <div className="bg-white rounded-lg shadow-md overflow-hidden transform transition duration-300 group-hover:scale-105 h-[400px] flex flex-col">
         {article.imageUrl ? (
           <Image
             src={article.imageUrl}

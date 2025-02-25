@@ -48,27 +48,28 @@ const ArticleCard = ({ articles }: ArticleCardProps) => {
                   key={article.id}
                   className="flex-none w-[90%] sm:w-[48%] md:w-[32%] lg:w-[30%] p-4"
                 >
-                  <div className="bg-white shadow-lg rounded-lg overflow-hidden">
-                    <Link href={`/artikel/${article.id}`}>
+                  <div className="bg-white shadow-lg rounded-lg overflow-hidden h-[400px] flex flex-col">
+                    <Link href={`/artikel/${article.id}`} className="h-full flex flex-col">
                       <Image
                         src={article.imageUrl || "/placeholder.svg"}
                         alt={article.title}
                         width={500}
                         height={300}
-                        className="w-full h-48 object-cover"
+                        className="w-full h-[180px] object-cover"
                       />
-                      <div className="p-6">
-                        <h3 className="text-xl font-semibold text-gray-800 mb-2">{article.title}</h3>
-                        <p className="text-gray-600 text-sm mb-4">
+                      <div className="p-6 flex-1 flex flex-col justify-between">
+                        <h3 className="text-xl font-semibold text-gray-800">{article.title}</h3>
+                        <p className="text-gray-600 text-sm">
                           {article.description && truncateText(article.description, 100)}
                         </p>
-                        <p className="text-green-600 hover:text-green-700 font-semibold cursor-pointer">
+                        <p className="text-green-600 hover:text-green-700 font-semibold cursor-pointer mt-4">
                           Baca Selengkapnya &rarr;
                         </p>
                       </div>
                     </Link>
                   </div>
                 </CarouselItem>
+
               ))}
             </CarouselContent>
 

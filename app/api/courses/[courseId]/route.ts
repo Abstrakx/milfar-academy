@@ -37,7 +37,7 @@ export async function DELETE(
     { params }: { params: { courseId: string } }
   ) {
     try {
-      const { userId } = await auth();
+      const { userId }: { userId: string | null } = await auth()
   
       if (!userId) {
         return new NextResponse("Unauthorized", { status: 401 });
@@ -46,7 +46,6 @@ export async function DELETE(
       const course = await db.course.findUnique({
         where: {
           id: params.courseId,
-          userId: userId,
         },
         include: {
             chapters: true,
