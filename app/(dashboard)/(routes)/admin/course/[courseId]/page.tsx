@@ -209,10 +209,6 @@ const CourseIdPage = async ({
                     initialData={coupons}
                     courseId={course.id}
                   />
-                  <WhatsappGroupForm 
-                    initialData={course}
-                    courseId={course.id}
-                  />
                 </CardContent>
               </Card>
 

@@ -18,7 +18,7 @@ const formSchema = z.object({
 
 interface WhatsappGroupFormProps {
   initialData: {
-    whatsappGroup?: string;
+    whatsappGroup: string | null;
   };
   courseId: string;
 }
@@ -30,7 +30,9 @@ const WhatsappGroupForm = ({ initialData, courseId }: WhatsappGroupFormProps) =>
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: initialData,
+    defaultValues: {
+      whatsappGroup: initialData.whatsappGroup || "",
+    },
   });
 
   const { isSubmitting, isValid } = form.formState;

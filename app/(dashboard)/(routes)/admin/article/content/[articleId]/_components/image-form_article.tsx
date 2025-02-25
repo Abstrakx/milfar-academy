@@ -6,13 +6,12 @@ import { Button } from "@/components/ui/button";
 import { ImageIcon, Pencil, PlusCircle } from "lucide-react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Article } from "@prisma/client";
 import Image from "next/image";
 import FileUpload from "@/components/file-upload";
 import toast from "react-hot-toast";
 
 interface ImageFormProps {
-    initialData: Article;
+    initialData: { imageUrl?: string | null };
     articleId: string;
 };
 
