@@ -1,7 +1,7 @@
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { CheckCircle, Lock } from "lucide-react";
+import { CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { CourseVideoPlayer } from "./_components/course-video-player";
 import { getChapter } from "@/actions/get-chapter";
@@ -9,6 +9,9 @@ import { getProgress } from "@/actions/get-progress";
 import CourseProgress from "@/components/course-progress";
 import PreviewCourse from "./_components/preview-course";
 import { CourseProgressButton } from "./_components/course-progress-button";
+import CertificatePage from "./_components/certificate-page";
+import { db } from "@/lib/db";
+import ProfilePage from "./_components/profile-page";
 
 const KelasPage = async ({ 
   params
@@ -17,9 +20,15 @@ const KelasPage = async ({
 }) => {
   const { userId }: { userId: string | null } = await auth()
   
-  if (!userId) {;
+  if (!userId) {
     return redirect("/");
   }
+
+  const profile = await db.profile.findFirst({
+    where: { 
+      userId: userId 
+    },
+  });
 
   const {
     chapter,
@@ -42,6 +51,7 @@ const KelasPage = async ({
     return redirect("/")
   }
 
+  
   // @ts-ignore
   const progressCount: number = await getProgress(userId, course.id);
 
@@ -89,6 +99,29 @@ const KelasPage = async ({
         <CourseProgress variant="success" value={progressCount} />
       </div>
 
+      {/* Additional Options */}
+      <div className="py-3 bg-white">
+        <div className="max-w-5xl mx-auto px-4">
+          <div className="flex flex-wrap gap-4 justify-start">
+          {attachments.length > 0 && (
+              <Link href={attachments[0].url} target="_blank">
+                <Button className="w-auto">E-Book</Button>
+              </Link>
+          )}
+              <Link href={course.whatsappGroup || ""} target="_blank">
+                <Button className="w-auto">Group Konsultasi</Button>
+              </Link>
+              <CertificatePage 
+                name={profile?.name || ""} 
+                courseTitle={course.title} 
+              />
+              <ProfilePage
+                userId={userId}
+                name={profile?.name || ""}
+              />
+          </div>
+        </div>
+      </div>
 
       {/* Chapters List */}
       <div className="materi-section py-6 sm:py-12 bg-gray-50">
@@ -123,7 +156,7 @@ const KelasPage = async ({
                     
                     <div className="flex items-center gap-3">
                         {isCurrent && (
-                        <span className="text-sm text-blue-600 font-semibold">• Dipilih</span>
+                          <span className="text-sm text-blue-600 font-semibold">• Dipilih</span>
                         )}
                     </div>
                     </li>
@@ -146,21 +179,6 @@ const KelasPage = async ({
                 <PreviewCourse content={chapter.description} /> 
             )}
           </p>
-        </div>
-      </div>
-
-      {/* Additional Options */}
-      <div className="py-12 bg-white">
-        <div className="max-w-5xl mx-auto px-4">
-        {attachments.length > 0 && (
-          <div className="flex flex-wrap gap-4 justify-start">
-              <Link href={attachments[0].url} target="_blank">
-                <Button className="w-auto">E-Book</Button>
-              </Link>
-              <Button className="w-auto">Sertifikat</Button>
-              <Button className="w-auto">Group Konsultasi</Button>
-          </div>
-        )}
         </div>
       </div>
 
